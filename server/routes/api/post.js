@@ -18,7 +18,7 @@ router.post("/",
 , auth,
 createPost)
 
-router.get("/", auth, findAllPosts)
+router.get("/", findAllPosts)
 
 router.get("/:id", auth, findPostById)
 
