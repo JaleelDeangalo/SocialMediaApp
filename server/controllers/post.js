@@ -17,6 +17,7 @@ const createPost = async(req, res) => {
         const newPost = new Post({
             text,
             image,
+            date: new Date().getTime(),
             avatar: user.avatar,
             username: user.username,
             user: req.user.id
@@ -153,6 +154,19 @@ const addComment = async(req, res) => {
     }
 }
 
+
+const getComments = async(req, res) => {
+
+    try {
+        const posts = await Posts.findById(req.params.id)
+        res.json(posts.commets)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("Server Error")
+    }
+
+}
+
 const removeComment = async(req, res) => {
 
     try {
@@ -187,4 +201,4 @@ const removeComment = async(req, res) => {
 
 }
 
-module.exports = { createPost, findPostById, findAllPosts, deletePost, likePost, unlikePost, addComment, removeComment }
+module.exports = { createPost, findPostById, findAllPosts, deletePost, likePost, unlikePost, addComment, removeComment, getComments }

@@ -37,7 +37,7 @@ const login = async (req, res) => {
             password
         }
 
-        jwt.sign(Payload, secret, { expiresIn: 3600}, (error, token) => {
+        jwt.sign(Payload, secret, { expiresIn: 3600000}, (error, token) => {
             if(error) {
                 throw error
             } 
@@ -96,7 +96,7 @@ const signUp = async(req, res) => {
             }
         }
 
-        jwt.sign(Payload, secret, {expiresIn:3600}, function (error, token) {
+        jwt.sign(Payload, secret, {expiresIn:360000}, function (error, token) {
             if(error) {
                 throw error
             } 
@@ -111,8 +111,15 @@ const signUp = async(req, res) => {
 }
 
 const logout = async(req, res) => {
-    res.clearCookie("jwt")
-    res.json({Message: "Signout Success"})
+
+    try {
+         await res.clearCookie(req.user.id)
+        res.json({Message: "Signout Success"})
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+  
 }
 
 

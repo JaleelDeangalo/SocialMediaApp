@@ -31,6 +31,11 @@ const UserSchema = new Schema({
         default: false
     },
 
+    bio: {
+        type: String,
+        default: "Bio"
+    },
+
     date: {
         type: Date,
         default: Date.now
@@ -44,7 +49,7 @@ const UserSchema = new Schema({
     following: {
         type: Array,
         default: []
-    }
+    },
 
 })
 

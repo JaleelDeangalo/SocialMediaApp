@@ -1,4 +1,6 @@
 const User = require("../models/User")
+const Post = require("../models/Post")
+const { validationResult } = require("express-validator")
 
 
 const getCurrentUser = async(req, res) => {
@@ -33,6 +35,29 @@ const followUser = async(req, res) => {
         await currentUser.updateOne({$push: {following: user.id}})
 
         res.status(200).json({Message: "User has been followed"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+
+}
+
+const updateUser = async(req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        return res.status(400).json({Message: errors.array()})
+    }
+
+    try {
+        const user = await User.findById(req.user.id)
+        const post = await Post.find(req.user.id)
+        if(post) {
+            await post.updateOne({$set: {username: req.body, avatar: req.body, bio: req.body}})
+        }
+        await user.updateOne({$set: req.body})
+
+        res.json(post, user)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -76,4 +101,4 @@ const getAllUsers = async(req, res) => {
 
 
 
-module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers }
+module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser }
