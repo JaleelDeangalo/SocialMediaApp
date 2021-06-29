@@ -1,5 +1,4 @@
-const { model, SChema, Schema } = require("mongoose")
-
+const { model, Schema } = require("mongoose")
 
 const MessageSchema = new Schema({
 
@@ -30,6 +29,5 @@ const MessageSchema = new Schema({
         default: Date.now
     }
 })
-
 
 module.exports = model("Messages", MessageSchema)

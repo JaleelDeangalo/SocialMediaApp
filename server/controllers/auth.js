@@ -4,7 +4,7 @@ const secret = require("../config/keys").secret
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
 const gravatar = require("gravatar")
-const normal = require("normalize-url")
+const normalizeUrl = require("normalize-url")
 
 const login = async (req, res) => {
 
@@ -69,7 +69,7 @@ const signUp = async(req, res) => {
         }
 
 
-        const avatar = normal(
+        const avatar = normalizeUrl(
             gravatar.url(email, {
                 s:"200",
                 r:"pg",
@@ -81,7 +81,7 @@ const signUp = async(req, res) => {
             username,
             email,
             password,
-             avatar
+            avatar
         })
 
 
@@ -96,7 +96,7 @@ const signUp = async(req, res) => {
             }
         }
 
-        jwt.sign(Payload, secret, {expiresIn:3600}, function (error, token) {
+        jwt.sign(Payload, secret, { expiresIn:3600 }, (error, token) => {
             if(error) {
                 throw error
             } 
