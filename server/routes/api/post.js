@@ -38,6 +38,6 @@ addComment)
 
 router.delete("/comment/:id/:comment_id", auth, removeComment)
 
-router.get("/comments", auth, getComments)
+router.get("/comments/:id", auth, getComments)
 
 module.exports = router

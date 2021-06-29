@@ -1,12 +1,13 @@
 const User = require("../models/User")
 const Post = require("../models/Post")
+const Comments = require("../models/Comment")
 const { validationResult } = require("express-validator")
 
 const createPost = async(req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
-        return res.stauts(400).json({Message: errors.array()})
+        return res.status(400).json({Message: errors.array()})
     }
 
     const { text, image } = req.body
@@ -28,7 +29,7 @@ const createPost = async(req, res) => {
         res.json(posts)
     } catch (error) {
         console.log(error)
-        res.stauts(500).json({Message: "Server Error"})
+        res.status(500).json({Message: "Server Error"})
     }
 
 }
@@ -46,10 +47,9 @@ const findAllPosts = async(req, res) => {
 const findPostById = async(req, res) => {
 
     try {
-        const post = await Post.findById(req.params.id)
-
+        
+        const post = await Post.findById(req.query.id)
         res.json(post)
-
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -71,7 +71,7 @@ const deletePost = async(req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.stauts(500).json({Message: "Server Error"})
+        res.status(500).json({Message: "Server Error"})
     }
 }
 
@@ -117,7 +117,7 @@ const unlikePost = async(req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.stauts(500).json({Message: "Server Error"})
+        res.status(500).json({Message: "Server Error"})
     }
 }
 
@@ -142,6 +142,17 @@ const addComment = async(req, res) => {
             user: req.user.id
         }
 
+       const comment = new Comments({
+            comment: text,
+            post: posts.id,
+            user: req.user.id,
+            avatar: user.avatar,
+            username: user.username,
+            date: new Date().getTime()
+
+        })
+
+        await comment.save()
         posts.comments.unshift(newComment)
 
         await posts.save()
@@ -158,8 +169,8 @@ const addComment = async(req, res) => {
 const getComments = async(req, res) => {
 
     try {
-        const posts = await Posts.findById(req.params.id)
-        res.json(posts.commets)
+        const comments = await Comments.find({_id: req.param.id})
+        res.json(comments)
     } catch (error) {
         console.log(error)
         res.status(500).send("Server Error")
@@ -177,11 +188,11 @@ const removeComment = async(req, res) => {
         )
 
         if(!comment) {
-            return res.stauts(404).json({ Message: "Comment not found"})
+            return res.status(404).json({ Message: "Comment not found"})
         }
 
         if(comment.user.toString() !== req.user.id) {
-            return res.stauts(401).json({ Message: "User not authorized"})
+            return res.status(401).json({ Message: "User not authorized"})
         }
 
         posts.comments = posts.comments.filter(
@@ -196,7 +207,7 @@ const removeComment = async(req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.stauts(500).json({Message: "Server Error"})
+        res.status(500).json({Message: "Server Error"})
     }
 
 }

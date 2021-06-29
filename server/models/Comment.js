@@ -26,7 +26,7 @@ const CommentSchema = new Schema({
 
     date: {
         type: Number,
-        default: Date.now()
+        default: new Date().getTime()
     }
 
 })

@@ -2,7 +2,6 @@ const User = require("../models/User")
 const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
-
 const getCurrentUser = async(req, res) => {
 
     try {
@@ -42,6 +41,21 @@ const followUser = async(req, res) => {
 
 }
 
+const getSelectedUser = async(req, res) => {
+
+    try {
+        const user = await User.findById(req.query.id)
+        if(!user) {
+            return res.status(400).json({Message: "User not found"})
+        }
+
+        res.json(user)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send(`Server Error`)
+    }
+}
+
 const updateUser = async(req, res) => {
 
     const errors = validationResult(req)
@@ -69,10 +83,10 @@ const updateUser = async(req, res) => {
 const unFollowUser = async(req, res) => {
 
     try {
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.query.id)
         const currentUser = await User.findById(req.user.id)
 
-        if(currentUser.id.toString() === req.params.id.toString()) {
+        if(currentUser.id.toString() === req.query.id.toString()) {
             return res.status(400).json({Message: "Cannot unfollow yourself"})
         }
 
@@ -101,4 +115,4 @@ const getAllUsers = async(req, res) => {
 
 
 
-module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser }
+module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getSelectedUser }

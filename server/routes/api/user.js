@@ -6,7 +6,8 @@ const {
     getCurrentUser,
     unFollowUser,
     updateUser,
-    getAllUsers } = require("../../controllers/user")
+    getAllUsers,
+    getSelectedUser } = require("../../controllers/user")
 const { check } = require("express-validator")    
 
 
@@ -26,5 +27,7 @@ router.put("/updateUser", auth,
     check("bio", "Please enter a bio").notEmpty()
 ],
 updateUser)
+
+router.get("/selectedUser", auth, getSelectedUser )
 
 module.exports = router

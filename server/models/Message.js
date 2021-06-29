@@ -22,12 +22,13 @@ const MessageSchema = new Schema({
     },
 
     image: {
-        type: String
+        type: String,
+        default: ""
     },
 
     date: {
-        type: Date,
-        default: Date.now
+        type: Number,
+        default: new Date().getTime()
     }
 })
 
