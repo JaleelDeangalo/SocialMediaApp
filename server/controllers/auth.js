@@ -96,19 +96,17 @@ const signUp = async(req, res) => {
             }
         }
 
-<<<<<<< HEAD
-        jwt.sign(Payload, secret, { expiresIn:3600 }, (error, token) => {
-=======
-        jwt.sign(Payload, secret, {expiresIn:360000}, function (error, token) {
->>>>>>> a69684c4b594d7931cc77b60ce4a42d9a795ee00
-            if(error) {
+        jwt.sign(Payload, secret, {expiresIn:360000}, (error, token) => {
+        
+              if(error) {
                 throw error
-            } 
+             } 
+            
+             res.json({token})
 
-            res.json({token})
-        })
+    })
 
-    } catch (error) {
+      }  catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
     }
