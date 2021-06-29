@@ -2,8 +2,9 @@ const express = require("express")
 const { check } = require("express-validator")
 const { login, logout, signUp } = require("../../controllers/auth")
 const router = express.Router()
+const auth = require("../../middleware/token")
 
-router.get("/logout", logout)
+router.get("/logout", auth, logout)
 
 router.post("/signup", 
 [

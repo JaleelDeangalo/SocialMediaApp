@@ -9,6 +9,7 @@ const { createPost,
         likePost,
         unlikePost,
         addComment,
+        getComments,
         removeComment } = require("../../controllers/post")
 
 router.post("/",
@@ -36,5 +37,7 @@ auth,
 addComment)
 
 router.delete("/comment/:id/:comment_id", auth, removeComment)
+
+router.get("/comments", auth, getComments)
 
 module.exports = router
