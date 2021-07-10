@@ -3,7 +3,7 @@ const Post = require("../models/Post")
 const Comments = require("../models/Comment")
 const { validationResult } = require("express-validator")
 
-const createPost = async(req, res) => {
+async function createPost(req, res) {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -34,7 +34,7 @@ const createPost = async(req, res) => {
 
 }
 
-const findAllPosts = async(req, res) => {
+ async function findAllPosts(req, res) {
     try {
         const posts = await Post.find().sort({ date: -1})
         res.json(posts)
@@ -44,7 +44,7 @@ const findAllPosts = async(req, res) => {
     }
 }
 
-const findPostById = async(req, res) => {
+async function findPostById(req, res) {
 
     try {
         
@@ -57,7 +57,7 @@ const findPostById = async(req, res) => {
 
 }
 
-const deletePost = async(req, res) => {
+async function deletePost(req, res) {
     try {
         
         const post = await Post.findById(req.params.id)
@@ -76,7 +76,7 @@ const deletePost = async(req, res) => {
 }
 
 
-const likePost = async(req, res) => {
+async function likePost(req, res) {
 
     try {
         const posts = await Post.findById(req.params.id)
@@ -98,7 +98,7 @@ const likePost = async(req, res) => {
    
 }
 
-const unlikePost = async(req, res) => {
+async function unlikePost(req, res) {
     try {
         const posts = await Post.findById(req.params.id)
 
@@ -122,7 +122,7 @@ const unlikePost = async(req, res) => {
 }
 
 
-const addComment = async(req, res) => {
+async function addComment(req, res) {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -166,7 +166,7 @@ const addComment = async(req, res) => {
 }
 
 
-const getComments = async(req, res) => {
+async function getComments(req, res) {
 
     try {
         const comments = await Comments.find({_id: req.param.id})
@@ -178,7 +178,7 @@ const getComments = async(req, res) => {
 
 }
 
-const removeComment = async(req, res) => {
+ async function removeComment(req, res) {
 
     try {
         const posts = await Post.findById(req.params.id)

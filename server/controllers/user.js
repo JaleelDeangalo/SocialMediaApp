@@ -2,7 +2,7 @@ const User = require("../models/User")
 const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
-const getCurrentUser = async(req, res) => {
+async function getCurrentUser(req, res) {
 
     try {
         const user = await User.findById(req.user.id).select("-password")
@@ -20,7 +20,7 @@ const getCurrentUser = async(req, res) => {
 
 
 
-const followUser = async(req, res) => {
+async function followUser(req, res) {
 
     try {
         const user = await User.findById(req.params.id)
@@ -41,7 +41,7 @@ const followUser = async(req, res) => {
 
 }
 
-const getSelectedUser = async(req, res) => {
+async function getSelectedUser(req, res) {
 
     try {
         const user = await User.findById(req.query.id)
@@ -56,7 +56,7 @@ const getSelectedUser = async(req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
+async function updateUser(req, res) {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -80,7 +80,7 @@ const updateUser = async(req, res) => {
 }
 
 
-const unFollowUser = async(req, res) => {
+async function unFollowUser(req, res) {
 
     try {
         const user = await User.findById(req.query.id)
@@ -101,7 +101,7 @@ const unFollowUser = async(req, res) => {
 }
 
 
-const getAllUsers = async(req, res) => {
+async function getAllUsers(req, res) {
 
     try {
       const users = await User.find().sort({ date: -1})
@@ -112,7 +112,6 @@ const getAllUsers = async(req, res) => {
     }
 
 }
-
 
 
 module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getSelectedUser }

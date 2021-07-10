@@ -1,11 +1,16 @@
 const User = require("../models/User")
-const Messages = require("../models/Message")
 const { validationResult } = require("express-validator")
 const Message = require("../models/Message")
 
 
 
- const createMessage = async(req, res) => {
+ async function createMessage(req, res) {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        return res.status(400).send({ Message: errors.array() })
+    }
+        const { message, image } = req.body
 
     try {
         const user = await User.findById(req.user.id)
@@ -13,8 +18,8 @@ const Message = require("../models/Message")
             user: req.user.id,
             avatar: user.avatar,
             username: user.username,
-            message: req.body.message,
-            image: req.body.image,
+            message,
+            image,
             date: new Date().getTime()
         })
 
@@ -27,7 +32,7 @@ const Message = require("../models/Message")
 
 }
 
-const getMessages = async(req, res) => {
+async function getMessages(req, res) {
 
     try {
         const message = await Message.find({_id: req.param.id})
@@ -43,7 +48,7 @@ const getMessages = async(req, res) => {
     
 }
 
- const deleteMessage = async(req, res) => {
+ async function deleteMessage(req, res) {
 
     try {
         const message = await Message.findById(req.params.id)
@@ -57,7 +62,7 @@ const getMessages = async(req, res) => {
 }
 
 
- const updateMessage = async(req, res) => {
+ async function updateMessage(req, res) {
 
     try {
         const message = await Message.findById(req.params.id)

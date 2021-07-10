@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const key = require("./keys").mongoUri
 
 
-const Connect = async() => {
+async function Connect() {
 
     try {
         await mongoose.connect(key,

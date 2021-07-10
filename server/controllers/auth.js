@@ -6,7 +6,7 @@ const User = require("../models/User")
 const gravatar = require("gravatar")
 const normalizeUrl = require("normalize-url")
 
-const login = async (req, res) => {
+async function login (req, res) {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -37,7 +37,7 @@ const login = async (req, res) => {
             password
         }
 
-        jwt.sign(Payload, secret, { expiresIn: 3600000}, (error, token) => {
+        jwt.sign(Payload, secret, { expiresIn: 3600000 }, (error, token) => {
             if(error) {
                 throw error
             } 
@@ -51,7 +51,7 @@ const login = async (req, res) => {
     }
 }
 
-const signUp = async(req, res) => {
+ async function signUp (req, res) {
 
 
     const errors = validationResult(req)
@@ -96,7 +96,7 @@ const signUp = async(req, res) => {
             }
         }
 
-        jwt.sign(Payload, secret, {expiresIn:360000}, (error, token) => {
+        jwt.sign(Payload, secret, { expiresIn:360000 }, (error, token) => {
         
               if(error) {
                 throw error
@@ -112,7 +112,7 @@ const signUp = async(req, res) => {
     }
 }
 
-const logout = async(req, res) => {
+async function logout (req, res) {
 
     try {
          await res.clearCookie(req.user.id)
