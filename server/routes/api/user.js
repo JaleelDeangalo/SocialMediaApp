@@ -10,7 +10,6 @@ const {
     getSelectedUser } = require("../../controllers/user")
 const { check } = require("express-validator")    
 
-
 router.get("/", auth, getCurrentUser)
 
 router.get("/currentUser", auth, getCurrentUser)
