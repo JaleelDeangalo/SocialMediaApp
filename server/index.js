@@ -10,5 +10,5 @@ app.use("/api/comments", require("./routes/api/comments"))
 
 Connect()
 
-const Port = process.env.PORT || 5000
+const Port = process.env.PORT || 5500
 app.listen(Port, () => console.log(`Server running on port ${Port}`))

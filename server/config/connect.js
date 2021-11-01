@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
-const key = require("./keys").mongoUri
+const uri = require("./keys").mongoUri
 
 
 async function Connect() {
 
     try {
-        await mongoose.connect(key,
+        await mongoose.connect(uri,
              {useCreateIndex:true,
               useFindAndModify:true,
               useNewUrlParser:true,

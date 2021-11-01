@@ -6,7 +6,7 @@ const User = require("../models/User")
 const gravatar = require("gravatar")
 const normalizeUrl = require("normalize-url")
 
-async function login (req, res) {
+async function login(req, res) {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -51,7 +51,7 @@ async function login (req, res) {
     }
 }
 
- async function signUp (req, res) {
+ async function signUp(req, res) {
 
 
     const errors = validationResult(req)
@@ -112,7 +112,7 @@ async function login (req, res) {
     }
 }
 
-async function logout (req, res) {
+async function logout(req, res) {
 
     try {
          await res.clearCookie(req.user.id)

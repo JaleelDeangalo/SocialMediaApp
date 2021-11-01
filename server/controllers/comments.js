@@ -80,8 +80,8 @@ async function updateComment(req, res) {
         if(comment.user.toString() !== req.user.id) {
             return res.status(401).send(`Not Authorized`)
         }
-            await comment.updateOne({$set: req.body})
-            res.json(comment)
+           const updatedComment = await comment.updateOne({$set: req.body})
+            res.json(updatedComment)
 
     } catch (error) {
         console.log(error)

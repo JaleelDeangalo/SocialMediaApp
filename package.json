@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "server": "nodemon server/index.js"
+    "server": "nodemon server/index.js",
+    "client": "cd client && npm run start"
   },
   "author": "Jaleel D Gilbert",
   "license": "MIT",
@@ -18,6 +19,8 @@
     "mongoose": "^5.12.11",
     "nodemon": "^2.0.7",
     "normalize-url": "^6.0.1",
-    "socket.io": "^4.1.2"
+    "socket.io": "^4.1.2",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.12"
   }
 }

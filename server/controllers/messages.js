@@ -55,6 +55,8 @@ async function getMessages(req, res) {
         if(message.user.toString() !== req.user.id) {
             return res.status(401).send("Not authorized")
         }
+
+        await message.remove()
     } catch (error) {
         console.log(error)
         res.status(500).send("Server error")

@@ -7,7 +7,7 @@ async function getCurrentUser(req, res) {
     try {
         const user = await User.findById(req.user.id).select("-password")
         if(!user) {
-            return res.status(404).json({Message: "Null"})
+            return res.status(404).json({Message: "User not found"})
         }
         res.status(200).json(user)
 

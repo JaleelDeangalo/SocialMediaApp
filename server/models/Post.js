@@ -1,7 +1,15 @@
 const { model, Schema } = require("mongoose")
 
+const uuid = require("uuidv4")
+
 
 const PostSchema = new Schema({
+
+    id: {
+        type: Number,
+        required: true,
+        default: Math.floor(Math.random() * 10000)
+    },
 
     user: {
         type: Schema.Types.ObjectId
