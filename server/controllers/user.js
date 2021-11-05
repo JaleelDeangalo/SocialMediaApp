@@ -33,7 +33,9 @@ async function followUser(req, res) {
         await user.updateOne({$push : { followers: req.user.id}})
         await currentUser.updateOne({$push: {following: user.id}})
 
+
         res.status(200).json({Message: "User has been followed"})
+        res.json(currentUser)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})

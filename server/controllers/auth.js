@@ -3,8 +3,7 @@ const jwt = require("jsonwebtoken")
 const secret = require("../config/keys").secret
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
-const gravatar = require("gravatar")
-const normalizeUrl = require("normalize-url")
+
 
 async function login(req, res) {
 
@@ -37,7 +36,7 @@ async function login(req, res) {
             password
         }
 
-        jwt.sign(Payload, secret, { expiresIn: 3600000 }, (error, token) => {
+        jwt.sign(Payload, secret, { expiresIn: 360000000000000000000 }, (error, token) => {
             if(error) {
                 throw error
             } 
@@ -69,13 +68,7 @@ async function login(req, res) {
         }
 
 
-        const avatar = normalizeUrl(
-            gravatar.url(email, {
-                s:"200",
-                r:"pg",
-                d:"mm"
-            })
-        )
+        const avatar = "https://www.teenwiseseattle.com/wp-content/uploads/2017/04/default_avatar.png"
 
         user = new User({
             username,

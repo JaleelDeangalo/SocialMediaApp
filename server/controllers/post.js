@@ -85,7 +85,9 @@ async function likePost(req, res) {
             return res.status(400).json({ Message: "Post already liked" });
           }
     
-          posts.likes.unshift({ user: req.user.id })
+          posts.likes.push(req.user.id.toString())
+
+          //posts.likes.unshift(req.user.id.toString())
     
           await posts.save()
     
@@ -103,13 +105,20 @@ async function unlikePost(req, res) {
         const posts = await Post.findById(req.params.id)
 
       
-        if (!post.likes.some((like) => like.user.toString() === req.user.id)) {
+        if (!posts.likes.some((like) => like.user.toString() === req.user.id)) {
             return res.status(400).json({ Message: 'Post has not yet been liked' });
         }
+
+
+
+        posts.like.pop(req.user.id.toString())
+        
+        /*
 
         posts.like = posts.likes.filter(
             ({ user }) => user.toString() !== req.user.id
         )
+        */
 
         await posts.save()
 

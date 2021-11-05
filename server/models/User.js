@@ -2,6 +2,11 @@ const { model, Schema } = require("mongoose")
 
 const UserSchema = new Schema({
 
+    id: {
+        type: Number,
+        default: Math.floor(Math.random() * 10000)
+    },
+
     username: {
         type: String,
         required: true,

@@ -1,6 +1,6 @@
 const User = require("../models/User")
 const Comments = require("../models/Comment")
-const Post = require("../models/Post")
+// const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
 
@@ -90,4 +90,4 @@ async function updateComment(req, res) {
 }
 
 
-module.exports = { addComment, deleteComment, updateComment, getComments }
+module.exports = { addComment, deleteComment, updateComment, getComments}

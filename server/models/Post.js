@@ -1,13 +1,9 @@
 const { model, Schema } = require("mongoose")
 
-const uuid = require("uuidv4")
-
-
 const PostSchema = new Schema({
 
     id: {
         type: Number,
-        required: true,
         default: Math.floor(Math.random() * 10000)
     },
 
@@ -33,13 +29,10 @@ const PostSchema = new Schema({
         type: String,
     },
 
-    likes: [
-        {
-            user: {
-                type: Schema.Types.ObjectId
-            }
-        }
-    ],
+    likes: {
+        type: [String],
+        default: []
+    },
 
     comments: [
         {
@@ -73,6 +66,5 @@ const PostSchema = new Schema({
     }
 
 })
-
 
 module.exports = model("Post", PostSchema)
