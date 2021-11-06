@@ -36,7 +36,7 @@ async function login(req, res) {
             password
         }
 
-        jwt.sign(Payload, secret, { expiresIn: 360000000000000000000 }, (error, token) => {
+        jwt.sign(Payload, secret, { expiresIn: 3600000000000000 }, (error, token) => {
             if(error) {
                 throw error
             } 
@@ -89,7 +89,7 @@ async function login(req, res) {
             }
         }
 
-        jwt.sign(Payload, secret, { expiresIn:360000 }, (error, token) => {
+        jwt.sign(Payload, secret, { expiresIn: 3600000000000000 }, (error, token) => {
         
               if(error) {
                 throw error

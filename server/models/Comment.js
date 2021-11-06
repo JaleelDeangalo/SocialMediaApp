@@ -2,17 +2,12 @@ const { model, Schema } = require("mongoose")
 
 const CommentSchema = new Schema({
 
-    id: {
-        type: Number,
-        default: Math.floor(Math.random()* 10000)
-    },
-
     user: {
         type: Schema.Types.ObjectId
     },
 
-    post: {
-        type: Schema.Types.ObjectId
+    postID: {
+        type: Schema.Types.ObjectId,
     },
 
     comment: {

@@ -2,11 +2,6 @@ const { model, Schema } = require("mongoose")
 
 const PostSchema = new Schema({
 
-    id: {
-        type: Number,
-        default: Math.floor(Math.random() * 10000)
-    },
-
     user: {
         type: Schema.Types.ObjectId
     },
@@ -16,7 +11,7 @@ const PostSchema = new Schema({
         default: ""
     },
 
-    text: {
+    description: {
         type: String,
         required: true
     },
@@ -30,12 +25,20 @@ const PostSchema = new Schema({
     },
 
     likes: {
+
         type: [String],
         default: []
     },
 
+    /*
     comments: [
         {
+
+            id: {
+                type: Number,
+                default: Math.floor(Math.random() * 10000)
+            },
+
             user: {
                 type: Schema.Types.ObjectId
             },
@@ -59,6 +62,7 @@ const PostSchema = new Schema({
             }
         }
     ],
+    */
 
     date: {
         type: Number,

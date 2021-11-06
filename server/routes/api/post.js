@@ -14,7 +14,7 @@ const { createPost,
 
 router.post("/",
 [
-    check("text", "Text is required").notEmpty()
+    check("description", "Text is required").notEmpty()
 ]
 , auth,
 createPost)
@@ -29,15 +29,19 @@ router.put("/like/:id", auth, likePost)
 
 router.put("/unlike/:id", auth, unlikePost)
 
+/*
 router.post("/comment/:id", 
 [
     check("text", "Text is required").notEmpty()
 ],
 auth,
 addComment)
+*/
 
+/*
 router.delete("/comment/:id/:comment_id", auth, removeComment)
 
 router.get("/comments/:id", auth, getComments)
+*/
 
 module.exports = router

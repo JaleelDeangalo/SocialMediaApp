@@ -2,6 +2,7 @@ const User = require("../models/User")
 const Comments = require("../models/Comment")
 // const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
+const mongoose = require("mongoose")
 
 
 async function addComment(req, res) {
@@ -12,7 +13,7 @@ async function addComment(req, res) {
         return res.status(400).send({Message: errors.array()})
     }
 
-    const { comment, post } = req.body
+    const { comment, postID } = req.body
 
     try {
 
@@ -22,7 +23,7 @@ async function addComment(req, res) {
             comment,
             user: user.id,
             avatar: user.avatar,
-            post,
+            postID,
             username: user.username
         })
 
@@ -36,12 +37,29 @@ async function addComment(req, res) {
     }
 }
 
+    async function getAllComments(req, res) {
 
- async function getComments(req, res) {
+        try {
+
+            const comments = await Comments.find()
+            res.json(comments)
+        } catch(error) {
+
+            console.log(error)
+            res.status(500).send("Server Error")
+        }
+    }
+
+ async function getCommentsById(req, res) {
 
     try {
-        const commments = await Comments.findById(req.params.id)
-        res.json(commments)
+
+        const comments = await Comments.find({postID: req.params.id})
+
+        if(!comments) {
+            return res.status(404).json({Message: "Comments not found"})
+        }
+        res.json(comments)
     } catch (error) {
         console.log(error)
         res.status(500).send(`Server Error`)
@@ -90,4 +108,4 @@ async function updateComment(req, res) {
 }
 
 
-module.exports = { addComment, deleteComment, updateComment, getComments}
+module.exports = { addComment, deleteComment, updateComment, getCommentsById, getAllComments}

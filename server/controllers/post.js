@@ -10,13 +10,13 @@ async function createPost(req, res) {
         return res.status(400).json({Message: errors.array()})
     }
 
-    const { text, image } = req.body
+    const { description, image } = req.body
 
     try {
         const user = await User.findById(req.user.id).select("-password")    
         
         const newPost = new Post({
-            text,
+            description,
             image,
             date: new Date().getTime(),
             avatar: user.avatar,
