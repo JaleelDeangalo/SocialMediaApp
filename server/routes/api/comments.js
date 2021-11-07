@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { check } = require("express-validator")
-const { addComment, deleteComment, updateComment, getCommentsById, getAllComments} = require("../../controllers/comments")
+const { addComment, deleteComment, updateComment, getCommentsById, getAllComments } = require("../../controllers/comments")
 const auth = require("../../middleware/token")
 
 
