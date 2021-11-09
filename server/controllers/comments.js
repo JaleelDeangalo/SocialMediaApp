@@ -1,8 +1,7 @@
 const User = require("../models/User")
 const Comments = require("../models/Comment")
-// const Post = require("../models/Post")
+const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
-const mongoose = require("mongoose")
 
 
 async function addComment(req, res) {
@@ -17,7 +16,12 @@ async function addComment(req, res) {
 
     try {
 
-        const user = await User.findById(req.user.id)
+        const user = await User.findById(req.user.id).select("-password")
+        const posts = await Post.findOne({_id: postID})
+
+        if(!posts) {
+            return res.status(404).json({Message: "Post not found"})
+        }
 
         const newComment = new Comments({
             comment,
@@ -27,9 +31,13 @@ async function addComment(req, res) {
             username: user.username
         })
 
+        posts.comments.unshift(newComment)
+
+        await posts.save()
+
         await newComment.save()
 
-        res.json({newComment})
+        res.json(newComment)
 
     } catch(error) {
         console.log(error)
@@ -37,12 +45,14 @@ async function addComment(req, res) {
     }
 }
 
+
     async function getAllComments(req, res) {
 
         try {
 
             const comments = await Comments.find()
             res.json(comments)
+
         } catch(error) {
 
             console.log(error)

@@ -30,20 +30,15 @@ const PostSchema = new Schema({
         default: []
     },
 
-    /*
+    
     comments: [
         {
-
-            id: {
-                type: Number,
-                default: Math.floor(Math.random() * 10000)
-            },
 
             user: {
                 type: Schema.Types.ObjectId
             },
 
-            text: {
+            comment: {
                 type: String,
                 required: true
             },
@@ -62,7 +57,6 @@ const PostSchema = new Schema({
             }
         }
     ],
-    */
 
     date: {
         type: Number,

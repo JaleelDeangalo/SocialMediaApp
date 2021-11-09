@@ -47,8 +47,7 @@ async function createPost(req, res) {
 async function findPostById(req, res) {
 
     try {
-        
-        const post = await Post.findById(req.query.id)
+        const post = await Post.find({user: req.params.id})
         res.json(post)
     } catch (error) {
         console.log(error)
