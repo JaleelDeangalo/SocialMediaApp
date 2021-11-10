@@ -31,9 +31,19 @@ const UserSchema = new Schema({
         default: "Bio"
     },
 
+    followers: {
+        type: Array,
+        default: []
+    },
+
+    following: {
+        type: Array,
+        default: []
+    },
+
     date: {
-        type: Date,
-        default: Date.now
+        type: Number,
+        default:  new Date().getTime()
     }
 
 })

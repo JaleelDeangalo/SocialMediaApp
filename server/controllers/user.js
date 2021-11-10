@@ -19,63 +19,6 @@ async function getCurrentUser(req, res) {
     
 }
 
-
-
-async function followUser(req, res) {
-
-    try {
-        const user = await User.findById(req.params.id)
-        const currentUser = await  User.findById(req.user.id)
-      
-        if(currentUser.id.toString() === req.params.id.toString()) {
-            return res.status(400).json({Message: "Cannot follow yourself"})
-        }
-
-        await user.updateOne({$push : { followers: req.user.id}})
-        await currentUser.updateOne({$push: {following: user.id}})
-
-
-        res.status(200).json({Message: "User has been followed"})
-        res.json(currentUser)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-
-}
-
-async function getSelectedUsers(req, res) {
-
-    try {
-        const users = await User.find({user: req.params.id})
-        if(!users) {
-            return res.status(400).json({Message: "Users not found"})
-        }
-x
-        res.json(users)
-    } catch (error) {
-        console.log(error)
-        res.status(500).send(`Server Error`)
-    }
-}
-
-async function getSelectedUser(req, res) {
-
-    try {
-
-        const user = await User.findOne({user: req.params.id})
-        if(!user) {
-            return res.status(400).json({Message: "User not found"})
-        }
-
-        res.json(user)
-
-    } catch(error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-}
-
 async function updateUser(req, res) {
 
     const errors = validationResult(req)
@@ -83,7 +26,7 @@ async function updateUser(req, res) {
         return res.status(400).json({Message: errors.array()})
     }
 
-    const { username, avatar} = req.body
+    const { username, avatar } = req.body
 
     try {
         const user = await User.findById(req.user.id)
@@ -98,7 +41,74 @@ async function updateUser(req, res) {
         }
         await user.updateOne({$set: req.body})
 
-        res.json(post, user)
+        res.status(200).json(post, user)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+
+}
+
+async function deleteUser(req, res) {
+
+    try {
+
+        const user = await User.findById(req.user.id)
+        if(!user) {
+            return res.status(400).json({Message: "User not found"})
+        }
+        await user.deleteOne()
+        res.status(200).json({Message: "User Deleted"})
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).send("Server Error")
+    }
+}
+
+async function getAllUsersById(req, res) {
+
+    try {
+        const users = await User.find(req.params.id)
+        if(!users) {
+            return res.status(400).json({Message: "Users not found"})
+        }
+        res.status(200).json(users)
+    } catch(error) {
+        console.log(error)
+        res.status(500).send("Server Error")
+    }
+}
+
+async function getAllUsers(req, res) {
+
+    try {
+      const users = await User.find().sort({ date: -1})
+      res.status(200).json(users)  
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+
+}
+
+async function followUser(req, res) {
+
+    try {
+        // Gets selected user
+        const user = await User.findById(req.params.id)
+        // Gets currentUser
+        const currentUser = await  User.findById(req.user.id)
+      
+        if(currentUser.id.toString() === req.params.id.toString()) {
+            return res.status(400).json({Message: "Error"})
+        }
+
+        await user.updateOne({$push : { followers: req.user.id}})
+        await currentUser.updateOne({$push: {following: user.id}})
+
+        res.status(200).json({Message: "User has been followed"})
+        res.json(currentUser)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -127,18 +137,54 @@ async function unFollowUser(req, res) {
 
 }
 
-
-async function getAllUsers(req, res) {
+async function getFollowing(req, res) {
 
     try {
-      const users = await User.find().sort({ date: -1})
-      res.json(users)  
-    } catch (error) {
+    
+        const user = await User.findById(req.user.id)
+        const friends = await Promise.all( user.following.map(function(friendId) {
+            return User.findById(friendId)
+        }))
+    
+        let followingList = [];
+    
+        friends.map(function(friend) {
+            const{ _id, username, avatar } = friend
+            followingList.push({_id, username, avatar })
+        })
+    
+        res.status(200).json(followingList)
+    
+    } catch(error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).send("Server Error")
+    }
+    
     }
 
-}
+    async function getFollowers(req, res) {
+
+        try {
+            const user = await User.findById(req.user.id)
+            const friends = await Promise.all(user.followers.map( function(friendId) {
+                return User.findById(friendId)
+            }))
+
+            let followersList = []
+
+            friends.map(function(friend) {
+                const { _id, username, avatar } = friend
+                followersList.push({ _id, username, avatar })
+            })
+
+            res.status(200).json(followersList)
+
+        } catch(error) {
+            console.log(error)
+            res.status(500).json({Mesage: "Server Error"})
+        }
+
+    }
 
 
-module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getSelectedUsers, getSelectedUser }
+module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getFollowing, deleteUser, getAllUsersById, getFollowers }

@@ -1,21 +1,14 @@
 const express = require("express")
 const router = express.Router()
 const auth = require("../../middleware/token")
-const { 
-    followUser,
-    getCurrentUser,
-    unFollowUser,
-    updateUser,
-    getAllUsers,
-    getSelectedUsers,
-getSelectedUser } = require("../../controllers/user")
+const { followUser, getCurrentUser, unFollowUser, updateUser, getAllUsers, deleteUser, getFollowing, getFollowers, getAllUsersById} = require("../../controllers/user")
 const { check } = require("express-validator")    
 
 router.get("/", auth, getCurrentUser)
 
-//router.get("/currentUser", auth, getCurrentUser)
-
 router.get("/getUsers", auth, getAllUsers)
+
+router.get("/getUsers/:id", auth, getAllUsersById)
 
 router.put("/follow/:id", auth, followUser)
 
@@ -28,8 +21,10 @@ router.put("/updateUser/:id", auth,
 ],
 updateUser)
 
-router.get("/:id", auth, getSelectedUsers)
+router.delete("/", auth, deleteUser)
 
-router.get("/:id", auth, getSelectedUser)
+router.get("/follwing", auth, getFollowing)
+
+router.get("/followers", auth, getFollowers)
 
 module.exports = router

@@ -1,9 +1,11 @@
 const express = require("express")
 const app = express()
+/*
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 const httpServer = createServer(app)
 const io = new Server(httpServer)
+*/
 
 // Imports Connection Function
 const Connect = require("./config/connect")
@@ -27,7 +29,7 @@ const Port = process.env.PORT || 5500
 /*
 let connections = [] 
 
-io.on("connection", function(socket)  {
+io.on("connection", socket =>  {
         connections.push(socket)
         console.log(`Socket connections: ${connections.length}`)
 
@@ -51,7 +53,7 @@ io.on("connection", function(socket)  {
   })
   */
 
-httpServer.listen(Port, () => console.log(`Server running on port ${Port}`))
+app.listen(Port, () => console.log(`Server running on port ${Port}`))
 
   
 

@@ -25,12 +25,10 @@ const PostSchema = new Schema({
     },
 
     likes: {
-
-        type: [String],
+        type: Array,
         default: []
     },
 
-    
     comments: [
         {
 

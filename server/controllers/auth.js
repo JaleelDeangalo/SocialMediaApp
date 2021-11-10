@@ -4,9 +4,9 @@ const secret = require("../config/keys").secret
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
 
-
 async function login(req, res) {
 
+    // Checks if email and password exists or is valid
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
         return res.status(400).json({Message: errors.array()})
@@ -16,18 +16,21 @@ async function login(req, res) {
 
     try {
         
+        // Queries User Model for email
         const user = await User.findOne({ email })
 
         if(!user) {
             return res.status(400).json({Message: "Email or password is invalid"})
         }
 
+        // Compares input password with hashes password
         const isMatched = await bcrypt.compare(password, user.password)
 
         if(!isMatched) {
             return res.status(400).json({ Message: " Email or password is invalid"})
         }
 
+        // Stores token in user.id
         const Payload = {
             user: {
                 id: user.id
@@ -36,11 +39,10 @@ async function login(req, res) {
             password
         }
 
-        jwt.sign(Payload, secret, { expiresIn: 3600000000000000 }, (error, token) => {
+        jwt.sign(Payload, secret, function (error, token) {
             if(error) {
                 throw error
-            } 
-
+            }
             res.json({token})
         })
 
@@ -53,6 +55,7 @@ async function login(req, res) {
  async function signUp(req, res) {
 
 
+    // Checks if username, email and password exists or is valid
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
         return res.status(400).json({Message: errors.array()})
@@ -62,12 +65,14 @@ async function login(req, res) {
 
     try {
         
+        // Queries User model for E input email
         let user = await User.findOne({ email })
+
         if(user) {
             return res.status(400).json({Message: "Email is in use"})
         }
 
-
+        // Sets Default Avatar
         const avatar = "https://www.teenwiseseattle.com/wp-content/uploads/2017/04/default_avatar.png"
 
         user = new User({
@@ -77,24 +82,23 @@ async function login(req, res) {
             avatar
         })
 
-
+        // Hashes input password
         const salt = await bcrypt.genSalt(10)
         user.password = await bcrypt.hash(password, salt)
 
         await user.save()
 
+        // Saves token in user.id
         const Payload = {
             user: {
                 id: user.id
             }
         }
 
-        jwt.sign(Payload, secret, { expiresIn: 3600000000000000 }, (error, token) => {
-        
+        jwt.sign(Payload, secret, function (error, token) {
               if(error) {
                 throw error
              } 
-            
              res.json({token})
 
     })
@@ -105,6 +109,8 @@ async function login(req, res) {
     }
 }
 
+
+// For client web apps only
 async function logout(req, res) {
 
     try {

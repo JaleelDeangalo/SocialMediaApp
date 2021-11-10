@@ -14,14 +14,12 @@ router.post("/signup",
 ],
 signUp)
 
-
 router.post("/login", 
 [
     check("email", "Email is required").isEmail().notEmpty(),
     check("password","Password is required").notEmpty()
 ],
  login)
-
 
 module.exports = router
 

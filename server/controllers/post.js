@@ -1,6 +1,5 @@
 const User = require("../models/User")
 const Post = require("../models/Post")
-const Comments = require("../models/Comment")
 const { validationResult } = require("express-validator")
 
 async function createPost(req, res) {
@@ -26,7 +25,7 @@ async function createPost(req, res) {
 
         const posts = await newPost.save()
 
-        res.json(posts)
+        res.status(200).json(posts)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -34,7 +33,25 @@ async function createPost(req, res) {
 
 }
 
- async function findAllPosts(req, res) {
+
+async function updatePost(req, res) {
+
+try {
+     
+const post = await Post.findById(req.params.id)
+if(post.user.toString() !== req.user.id.toString()) {
+    return res.status(401).send("Not Authorized")
+} 
+    await post.updateOne({$set: req.body})
+    res.status(200).json({Message: "Post has been updated"})
+} catch(error) {
+    console.log(error)
+    res.status(500).send("Server Error")
+}
+
+}
+
+ async function getAllPosts(req, res) {
     try {
         const posts = await Post.find().sort({ date: -1})
         res.json(posts)
@@ -44,7 +61,7 @@ async function createPost(req, res) {
     }
 }
 
-async function findPostById(req, res) {
+async function getPostById(req, res) {
 
     try {
         const post = await Post.find({user: req.params.id})
@@ -78,146 +95,56 @@ async function deletePost(req, res) {
 async function likePost(req, res) {
 
     try {
-        const posts = await Post.findById(req.params.id)
+        const post = await Post.findById(req.params.id)
 
-        if (posts.likes.some((like) => like.user.toString() === req.user.id)) {
+        if (post.likes.some((like) => like.user.toString() === req.user.id)) {
             return res.status(400).json({ Message: "Post already liked" });
           }
     
-          posts.likes.push(req.user.id.toString())
-
-          //posts.likes.unshift(req.user.id.toString())
+          await post.updateOne({$push: {likes: req.user.id}})
     
-          await posts.save()
-    
-          return res.json(posts.likes)
+          return res.json(post.likes)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
     }
   
-   
 }
 
 async function unlikePost(req, res) {
     try {
-        const posts = await Post.findById(req.params.id)
-
+        const post = await Post.findById(req.params.id)
       
-        if (!posts.likes.some((like) => like.user.toString() === req.user.id)) {
-            return res.status(400).json({ Message: 'Post has not yet been liked' });
+        if (!post.likes.some((like) => like.user.toString() === req.user.id)) {
+            return res.status(400).json({ Message: 'Post already unliked' });
         }
 
+        await post.updateOne({$pull: { likes: req.user.id}})
 
+        return res.json(post.likes)
 
-        posts.like.pop(req.user.id.toString())
-        
-        /*
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+}
 
-        posts.like = posts.likes.filter(
-            ({ user }) => user.toString() !== req.user.id
+async function getTimelinePost(req, res) {
+
+    try{
+        const currentUser = await User.findById(req.user.id)
+        const userPost = await Post.find({user: currentUser.id})
+        const friendPosts = await Promise.all(
+            currentUser.following.map(friendId => {
+                Post.find({user: friendId})
+            })
         )
-        */
-
-        await posts.save()
-
-        return res.json(posts.likes)
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-}
-
-
-async function addComment(req, res) {
-
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
-    }
-
-    const { text } = req.body
-
-    try {
-        const user = await User.findById(req.user.id).select("-password")
-        const posts = await Post.findById(req.params.id)
-
-        const newComment = {
-            text,
-            username: user.usermane,
-            avatar: user.avatar,
-            user: req.user.id
-        }
-
-       const comment = new Comments({
-            comment: text,
-            post: posts.id,
-            user: req.user.id,
-            avatar: user.avatar,
-            username: user.username,
-            date: new Date().getTime()
-
-        })
-
-        await comment.save()
-        posts.comments.unshift(newComment)
-
-        await posts.save()
-
-        res.json(posts.comments)
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-}
-
-
-async function getComments(req, res) {
-
-    try {
-        const comments = await Comments.find({_id: req.param.id})
-        res.json(comments)
-    } catch (error) {
+        res.json(userPost.concat(...friendPosts))
+    } catch(error) {
         console.log(error)
         res.status(500).send("Server Error")
     }
 
 }
 
- async function removeComment(req, res) {
-
-    try {
-        const posts = await Post.findById(req.params.id)
-
-        const comment = posts.comments.find(
-            (comment) => comment.id === req.params.comment_id
-        )
-
-        if(!comment) {
-            return res.status(404).json({ Message: "Comment not found"})
-        }
-
-        if(comment.user.toString() !== req.user.id) {
-            return res.status(401).json({ Message: "User not authorized"})
-        }
-
-        posts.comments = posts.comments.filter(
-            ({ id }) => id !== req.params.comment_id
-        )
-
-
-        await posts.save()
-
-        return res.json(posts.comments)
-
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-
-}
-
-module.exports = { createPost, findPostById, findAllPosts, deletePost, likePost, unlikePost, addComment, removeComment, getComments }
+module.exports = { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost}
