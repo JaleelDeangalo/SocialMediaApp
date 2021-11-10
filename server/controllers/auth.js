@@ -1,6 +1,5 @@
 const { validationResult } = require("express-validator")
 const jwt = require("jsonwebtoken")
-const secret = require("../config/keys").secret
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
 
@@ -39,7 +38,7 @@ async function login(req, res) {
             password
         }
 
-        jwt.sign(Payload, secret, function (error, token) {
+        jwt.sign(Payload, process.env.SECRET, function (error, token) {
             if(error) {
                 throw error
             }
@@ -95,7 +94,7 @@ async function login(req, res) {
             }
         }
 
-        jwt.sign(Payload, secret, function (error, token) {
+        jwt.sign(Payload, process.env.SECRET, function (error, token) {
               if(error) {
                 throw error
              } 

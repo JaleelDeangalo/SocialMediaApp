@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
-const uri = require("./keys").mongoUri
+
 
 
 async function Connect() {
 
     try {
-        await mongoose.connect(uri,
+        await mongoose.connect(process.env.MONGO_URL,
              {useCreateIndex:true,
               useFindAndModify:true,
               useNewUrlParser:true,
