@@ -14,7 +14,7 @@ router.put("/follow/:id", auth, followUser)
 
 router.put("/unfollow/:id", auth, unFollowUser)
 
-router.put("/updateUser/:id", auth, 
+router.put("/updateUser", auth, 
 [
     check("username", "Please enter a username").notEmpty(),
     check("bio", "Please enter a bio").notEmpty()
@@ -23,7 +23,7 @@ updateUser)
 
 router.delete("/", auth, deleteUser)
 
-router.get("/follwing", auth, getFollowing)
+router.get("/following", auth, getFollowing)
 
 router.get("/followers", auth, getFollowers)
 

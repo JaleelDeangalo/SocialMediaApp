@@ -30,18 +30,16 @@ async function updateUser(req, res) {
 
     try {
         const user = await User.findById(req.user.id)
-        const post = await Post.find({user: req.params.id})
-        const comment = await Comment.find({user: req.params.id})
+        const post = await Post.find({user: req.user.id})
         if(post) {
             await post.updateMany({$set: {username: username, avatar: avatar}})
+        } else {
+            return res.status(404).json({Message: "Post not found"})
         }
 
-        if(comment) {
-            await comment.updateMany({$set: {username: username, avatar: avatar}})
-        }
         await user.updateOne({$set: req.body})
 
-        res.status(200).json(post, user)
+        res.status(200).json(user)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -108,7 +106,6 @@ async function followUser(req, res) {
         await currentUser.updateOne({$push: {following: user.id}})
 
         res.status(200).json({Message: "User has been followed"})
-        res.json(currentUser)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -129,6 +126,8 @@ async function unFollowUser(req, res) {
 
         await user.updateOne({$pull: { followers: req.user.id }})
         await currentUser.updateOne({$pull: { following: user.id }})
+
+        res.status(200).json({Message: "User has been unfollowed"})
 
     } catch (error) {
         console.log(error)

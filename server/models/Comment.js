@@ -6,6 +6,12 @@ const CommentSchema = new Schema({
         type: Schema.Types.ObjectId
     },
 
+
+    likes: {
+        type: Array,
+        default: []
+    },
+
     postID: {
         type: Schema.Types.ObjectId,
     },
