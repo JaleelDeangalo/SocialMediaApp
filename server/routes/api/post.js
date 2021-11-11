@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const { check } = require("express-validator")
 const  auth  = require("../../middleware/token")
-const { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost } = require("../../controllers/post")
+const { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost, getPostComments } = require("../../controllers/post")
 
 router.post("/",
 [
@@ -23,5 +23,9 @@ router.put("/:id", auth, updatePost)
 router.put("/like/:id", auth, likePost)
 
 router.put("/unlike/:id", auth, unlikePost)
+
+router.get("/postComments/:id", auth, getPostComments)
+
+router.get("/timeline", auth, getTimelinePost)
 
 module.exports = router

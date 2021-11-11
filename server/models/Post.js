@@ -29,32 +29,10 @@ const PostSchema = new Schema({
         default: []
     },
 
-    comments: [
-        {
-
-            user: {
-                type: Schema.Types.ObjectId
-            },
-
-            comment: {
-                type: String,
-                required: true
-            },
-            
-            username: {
-                type: String
-            },
-
-            avatar: {
-                type: String
-            },
-
-            date: {
-                type: Number,
-                default: new Date().getTime()
-            }
-        }
-    ],
+    comments: {
+        type: Array,
+        default: []
+    },
 
     date: {
         type: Number,

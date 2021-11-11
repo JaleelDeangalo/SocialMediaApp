@@ -17,7 +17,7 @@ async function addComment(req, res) {
     try {
 
         const user = await User.findById(req.user.id).select("-password")
-        const posts = await Post.findOne({_id: postID})
+        const posts = await Post.findOne({ _id: postID})
 
         if(!posts) {
             return res.status(404).json({Message: "Post not found"})

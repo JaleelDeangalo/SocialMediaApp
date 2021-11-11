@@ -38,10 +38,12 @@ async function login(req, res) {
             password
         }
 
-        jwt.sign(Payload, process.env.SECRET, function (error, token) {
+        jwt.sign(Payload, process.env.SECRET, function(error, token) {
+
             if(error) {
                 throw error
             }
+            
             res.json({token})
         })
 
@@ -94,10 +96,12 @@ async function login(req, res) {
             }
         }
 
-        jwt.sign(Payload, process.env.SECRET, function (error, token) {
+        jwt.sign(Payload, process.env.SECRET, function(error, token) {
+
               if(error) {
                 throw error
              } 
+
              res.json({token})
 
     })

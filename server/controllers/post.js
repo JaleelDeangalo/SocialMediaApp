@@ -147,4 +147,30 @@ async function getTimelinePost(req, res) {
 
 }
 
-module.exports = { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost}
+async function getPostComments(req, res) {
+
+    try {
+
+        const post = await Post.findById(req.params.id)
+        const comments = await Promise.all(post.comments.map(userID => {
+            return User.findById(userID)
+        }))
+
+        let commentsList = []
+
+        comments.map(userComment => {
+            const { _id, username, avatar } = userComment
+            commentsList.push({ _id, username, avatar })
+        })
+
+        res.status(200).json(commentsList)
+
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+
+}
+
+module.exports = { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost, getPostComments}

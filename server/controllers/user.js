@@ -141,15 +141,15 @@ async function getFollowing(req, res) {
     try {
     
         const user = await User.findById(req.user.id)
-        const friends = await Promise.all( user.following.map(function(friendId) {
+        const friends = await Promise.all(user.following.map(friendId => {
             return User.findById(friendId)
         }))
     
         let followingList = [];
     
-        friends.map(function(friend) {
+        friends.map(friend => {
             const{ _id, username, avatar } = friend
-            followingList.push({_id, username, avatar })
+            followingList.push({ _id, username, avatar })
         })
     
         res.status(200).json(followingList)
@@ -165,13 +165,13 @@ async function getFollowing(req, res) {
 
         try {
             const user = await User.findById(req.user.id)
-            const friends = await Promise.all(user.followers.map( function(friendId) {
+            const friends = await Promise.all(user.followers.map(friendId => {
                 return User.findById(friendId)
             }))
 
             let followersList = []
 
-            friends.map(function(friend) {
+            friends.map(friend => {
                 const { _id, username, avatar } = friend
                 followersList.push({ _id, username, avatar })
             })
