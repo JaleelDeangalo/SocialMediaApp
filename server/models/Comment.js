@@ -21,14 +21,6 @@ const CommentSchema = new Schema({
         default: ""
     },
 
-    avatar: {
-        type: String
-    },
-
-    username: {
-        type: String
-    },
-
     date: {
         type: Number,
         default: new Date().getTime()

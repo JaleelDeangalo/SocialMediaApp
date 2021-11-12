@@ -26,9 +26,7 @@ async function addComment(req, res) {
         const newComment = new Comments({
             comment,
             user: user.id,
-            avatar: user.avatar,
-            postID,
-            username: user.username
+            postID
         })
 
         posts.comments.unshift(newComment)
@@ -37,7 +35,7 @@ async function addComment(req, res) {
 
         await newComment.save()
 
-        res.json(newComment)
+        res.status(200).json({Message: "Comment Added"})
 
     } catch(error) {
         console.log(error)
@@ -64,12 +62,12 @@ async function addComment(req, res) {
 
     try {
 
-        const comments = await Comments.find({postID: req.params.id})
+        const comments = await Comments.find({postID: req.params.id}).sort({ date: -1})
 
         if(!comments) {
             return res.status(404).json({Message: "Comments not found"})
         }
-        res.json(comments)
+        res.status(200).json(comments)
     } catch (error) {
         console.log(error)
         res.status(500).send(`Server Error`)
@@ -86,6 +84,7 @@ async function deleteComment(req, res) {
         }
 
         await comment.remove()
+        res.status(200).json({Message: "Comment removed"})
 
     } catch(error) {
         console.log(error)
@@ -109,7 +108,7 @@ async function updateComment(req, res) {
             return res.status(401).send(`Not Authorized`)
         }
            const updatedComment = await comment.updateOne({$set: req.body})
-            res.json(updatedComment)
+            res.status(200).json({Message: "Comment updated"})
 
     } catch (error) {
         console.log(error)
