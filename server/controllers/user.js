@@ -19,6 +19,22 @@ async function getCurrentUser(req, res) {
     
 }
 
+async function getUser(req, res) {
+
+try {
+
+    const user = await User.findById(req.params.id)
+
+    const { password, updatedAt, ...other} = user._doc
+    res.status(200).json(other)
+
+} catch(error) {
+    console.log(error)
+    res.status(500).json({Message: "Server Error"})
+}
+
+}
+
 async function updateUser(req, res) {
 
     const errors = validationResult(req)
@@ -179,4 +195,4 @@ async function getFollowing(req, res) {
     }
 
 
-module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getFollowing, deleteUser, getAllUsersById, getFollowers }
+module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getFollowing, deleteUser, getAllUsersById, getFollowers, getUser }

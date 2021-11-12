@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const auth = require("../../middleware/token")
-const { followUser, getCurrentUser, unFollowUser, updateUser, getAllUsers, deleteUser, getFollowing, getFollowers, getAllUsersById} = require("../../controllers/user")
+const { followUser, getCurrentUser, unFollowUser, updateUser, getAllUsers, deleteUser, getFollowing, getFollowers, getAllUsersById, getUser} = require("../../controllers/user")
 const { check } = require("express-validator")    
 
 router.get("/", auth, getCurrentUser)
@@ -9,6 +9,8 @@ router.get("/", auth, getCurrentUser)
 router.get("/getUsers", auth, getAllUsers)
 
 router.get("/getUsers/:id", auth, getAllUsersById)
+
+router.get("/getUser/:id", auth, getUser)
 
 router.put("/follow/:id", auth, followUser)
 

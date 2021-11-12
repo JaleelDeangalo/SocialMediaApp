@@ -140,7 +140,7 @@ async function getTimelinePost(req, res) {
                return Post.find({user: friendId})
             })
         )
-        res.json(userPost.concat(...friendPosts))
+        res.status(200).json(userPost.concat(...friendPosts))
     } catch(error) {
         console.log(error)
         res.status(500).send("Server Error")
