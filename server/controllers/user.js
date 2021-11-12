@@ -26,20 +26,13 @@ async function updateUser(req, res) {
         return res.status(400).json({Message: errors.array()})
     }
 
-    const { username, avatar } = req.body
-
     try {
-        const user = await User.findById(req.user.id)
-        const post = await Post.find({user: req.user.id})
-        if(post) {
-            await post.updateMany({$set: {username: username, avatar: avatar}})
-        } else {
-            return res.status(404).json({Message: "Post not found"})
-        }
-
+        const user = await User.findById(req.user.id).select("-password")
+  
         await user.updateOne({$set: req.body})
 
-        res.status(200).json(user)
+        res.status(200).json({Message: "Profile Update Successfull"})
+
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})

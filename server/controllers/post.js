@@ -51,15 +51,6 @@ if(post.user.toString() !== req.user.id.toString()) {
 
 }
 
- async function getAllPosts(req, res) {
-    try {
-        const posts = await Post.find().sort({ date: -1})
-        res.json(posts)
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-}
 
 async function getPostById(req, res) {
 
@@ -129,6 +120,16 @@ async function unlikePost(req, res) {
     }
 }
 
+async function getAllPosts(req, res) {
+    try {
+        const posts = await Post.find().sort({ date: -1})
+        res.json(posts)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+}
+
 async function getTimelinePost(req, res) {
 
     try{
@@ -136,7 +137,7 @@ async function getTimelinePost(req, res) {
         const userPost = await Post.find({user: currentUser.id})
         const friendPosts = await Promise.all(
             currentUser.following.map(friendId => {
-                Post.find({user: friendId})
+               return Post.find({user: friendId})
             })
         )
         res.json(userPost.concat(...friendPosts))
@@ -159,8 +160,8 @@ async function getPostComments(req, res) {
         let commentsList = []
 
         comments.map(userComment => {
-            const { _id, username, avatar } = userComment
-            commentsList.push({ _id, username, avatar })
+            const { _id, username, avatar, comment } = userComment
+            commentsList.push({ _id, username, avatar, comment })
         })
 
         res.status(200).json(commentsList)

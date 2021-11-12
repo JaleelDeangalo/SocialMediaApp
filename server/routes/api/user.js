@@ -14,12 +14,12 @@ router.put("/follow/:id", auth, followUser)
 
 router.put("/unfollow/:id", auth, unFollowUser)
 
-router.put("/updateUser", auth, 
+router.put("/updateUser",
 [
-    check("username", "Please enter a username").notEmpty(),
-    check("bio", "Please enter a bio").notEmpty()
-],
-updateUser)
+    check("username", "username is required").notEmpty(),
+    check("email", "email is required").notEmpty(),
+    check("bio", "bio is required").notEmpty()
+], auth, updateUser)
 
 router.delete("/", auth, deleteUser)
 
