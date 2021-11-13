@@ -25,7 +25,7 @@ async function createPost(req, res) {
 
         const posts = await newPost.save()
 
-        res.status(200).json(posts)
+        res.status(200).json({Message: "Post created"})
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -56,7 +56,7 @@ async function getPostById(req, res) {
 
     try {
         const post = await Post.find({user: req.params.id})
-        res.json(post)
+        res.status(200).json(post)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -75,6 +75,8 @@ async function deletePost(req, res) {
 
         await post.remove()
 
+        res.status(200).json({Message: "Post removed"})
+
 
     } catch (error) {
         console.log(error)
@@ -88,13 +90,13 @@ async function likePost(req, res) {
     try {
         const post = await Post.findById(req.params.id)
 
-        if (post.likes.some((like) => like.user.toString() === req.user.id)) {
+        if (post.likes.some(like => like.user.toString() === req.user.id)) {
             return res.status(400).json({ Message: "Post already liked" });
           }
     
           await post.updateOne({$push: {likes: req.user.id}})
     
-          return res.json(post.likes)
+          res.status(200).json({Message: "Post has been liked"})
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
@@ -106,13 +108,13 @@ async function unlikePost(req, res) {
     try {
         const post = await Post.findById(req.params.id)
       
-        if (!post.likes.some((like) => like.user.toString() === req.user.id)) {
+        if (!post.likes.some(like => like.user.toString() === req.user.id)) {
             return res.status(400).json({ Message: 'Post already unliked' });
         }
 
         await post.updateOne({$pull: { likes: req.user.id}})
 
-        return res.json(post.likes)
+         res.status(200).json({Message: "Post has been unliked"})
 
     } catch (error) {
         console.log(error)
@@ -123,7 +125,7 @@ async function unlikePost(req, res) {
 async function getAllPosts(req, res) {
     try {
         const posts = await Post.find().sort({ date: -1})
-        res.json(posts)
+        res.status(200).json(posts)
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})

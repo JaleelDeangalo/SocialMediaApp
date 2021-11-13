@@ -44,7 +44,7 @@ async function login(req, res) {
                 throw error
             }
             
-            res.json({token})
+            res.status(200).json({token})
         })
 
     } catch (error) {
@@ -102,7 +102,7 @@ async function login(req, res) {
                 throw error
              } 
 
-             res.json({token})
+             res.status(200).json({token})
 
     })
 

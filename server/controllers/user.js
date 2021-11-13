@@ -47,7 +47,7 @@ async function updateUser(req, res) {
   
         await user.updateOne({$set: req.body})
 
-        res.status(200).json({Message: "Profile Update Successfull"})
+        res.status(200).json({Message: "Profile updated successfully"})
 
     } catch (error) {
         console.log(error)
@@ -65,7 +65,7 @@ async function deleteUser(req, res) {
             return res.status(400).json({Message: "User not found"})
         }
         await user.deleteOne()
-        res.status(200).json({Message: "User Deleted"})
+        res.status(200).json({Message: "User deleted"})
 
     } catch(error) {
         console.log(error)

@@ -49,7 +49,7 @@ async function addComment(req, res) {
         try {
 
             const comments = await Comments.find()
-            res.json(comments)
+            res.status(200).json(comments)
 
         } catch(error) {
 
