@@ -132,7 +132,7 @@ async function getAllPosts(req, res) {
 
 async function getTimelinePost(req, res) {
 
-    try{
+    try {
         const currentUser = await User.findById(req.user.id)
         const userPost = await Post.find({user: currentUser.id})
         const friendPosts = await Promise.all(

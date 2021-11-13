@@ -41,6 +41,11 @@ const UserSchema = new Schema({
         default: []
     },
 
+    myPosts: {
+        type: Array,
+        default: []
+    },
+
     date: {
         type: Number,
         default:  new Date().getTime()
