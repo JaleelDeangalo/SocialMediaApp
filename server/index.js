@@ -15,6 +15,10 @@ app.use("/api/post", require("./routes/api/post"))
 app.use("/api/user", require("./routes/api/user"))
 app.use("/api/comments", require("./routes/api/comments"))
 
+app.get("/", (req, res) => {
+    res.send("Hello Node")
+})
+
 Connect()
 
 const Port = process.env.PORT || 5500
