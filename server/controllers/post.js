@@ -18,12 +18,12 @@ async function createPost(req, res) {
             description,
             image,
             date: new Date().getTime(),
-            avatar: user.avatar,
-            username: user.username,
             user: req.user.id
         })
 
-        const posts = await newPost.save()
+         await user.myPosts.push(newPost)
+        
+         await newPost.save()
 
         res.status(200).json({Message: "Post created"})
     } catch (error) {
