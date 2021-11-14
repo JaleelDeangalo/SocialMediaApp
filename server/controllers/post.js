@@ -21,7 +21,7 @@ async function createPost(req, res) {
             user: req.user.id
         })
 
-         await user.updateOne({myPosts: newPost})
+         await user.updateOne({$push: {myPosts: newPost}})
         
          await newPost.save()
 
