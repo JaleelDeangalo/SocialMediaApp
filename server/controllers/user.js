@@ -56,6 +56,25 @@ async function updateUser(req, res) {
 
 }
 
+async function getSelectedUser(req, res) {
+
+
+    try {
+
+        const user = await User.findById(req.params.id)
+
+        if(!user) {
+            return res.status(404).json({Message: "User not found"})
+        }
+
+        res.status(200).json(user)
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+}
+
 async function deleteUser(req, res) {
 
     try {
@@ -195,4 +214,4 @@ async function getFollowing(req, res) {
     }
 
 
-module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getFollowing, deleteUser, getAllUsersById, getFollowers, getUser }
+module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getFollowing, deleteUser, getAllUsersById, getFollowers, getUser, getSelectedUser }
