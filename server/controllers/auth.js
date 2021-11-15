@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
 
-async function login(req, res) {
+const login = async(req, res) => {
 
     // Checks if email and password exists or is valid
     const errors = validationResult(req)
@@ -38,7 +38,7 @@ async function login(req, res) {
             password
         }
 
-        jwt.sign(Payload, process.env.SECRET, function(error, token) {
+        jwt.sign(Payload, process.env.SECRET, (error, token) => {
 
             if(error) {
                 throw error
@@ -53,7 +53,7 @@ async function login(req, res) {
     }
 }
 
- async function signUp(req, res) {
+const signUp = async(req, res) => {
 
 
     // Checks if username, email and password exists or is valid
@@ -96,7 +96,7 @@ async function login(req, res) {
             }
         }
 
-        jwt.sign(Payload, process.env.SECRET, function(error, token) {
+        jwt.sign(Payload, process.env.SECRET, (error, token) => {
 
               if(error) {
                 throw error
@@ -114,7 +114,7 @@ async function login(req, res) {
 
 
 // For client web apps only
-async function logout(req, res) {
+const logout = async(req, res) => {
 
     try {
          await res.clearCookie(req.user.id)

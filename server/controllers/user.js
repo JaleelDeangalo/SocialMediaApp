@@ -3,7 +3,7 @@ const Post = require("../models/Post")
 const Comment = require("../models/Comment")
 const { validationResult } = require("express-validator")
 
-async function getCurrentUser(req, res) {
+const getCurrentUser = async (req, res) => {
 
     try {
         const user = await User.findById(req.user.id).select("-password")
@@ -19,7 +19,7 @@ async function getCurrentUser(req, res) {
     
 }
 
-async function getUser(req, res) {
+const getUser = async(req, res) => {
 
 try {
 
@@ -35,7 +35,7 @@ try {
 
 }
 
-async function updateUser(req, res) {
+const updateUser =  async(req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -56,7 +56,7 @@ async function updateUser(req, res) {
 
 }
 
-async function getSelectedUser(req, res) {
+const getSelectedUser = async (req, res) => {
 
 
     try {
@@ -75,7 +75,7 @@ async function getSelectedUser(req, res) {
     }
 }
 
-async function deleteUser(req, res) {
+const deleteUser = async (req, res) => {
 
     try {
 
@@ -92,7 +92,7 @@ async function deleteUser(req, res) {
     }
 }
 
-async function getAllUsersById(req, res) {
+const getAllUsersById = async (req, res)  => {
 
     try {
         const users = await User.find(req.params.id)
@@ -106,7 +106,7 @@ async function getAllUsersById(req, res) {
     }
 }
 
-async function getAllUsers(req, res) {
+const getAllUsers = async (req, res)  => {
 
     try {
       const users = await User.find().sort({ date: -1})
@@ -118,7 +118,7 @@ async function getAllUsers(req, res) {
 
 }
 
-async function followUser(req, res) {
+const followUser = async(req, res) => {
 
     try {
         // Gets selected user
@@ -142,7 +142,7 @@ async function followUser(req, res) {
 }
 
 
-async function unFollowUser(req, res) {
+const unFollowUser = async (req, res) => {
 
     try {
         const user = await User.findById(req.query.id)
@@ -164,7 +164,7 @@ async function unFollowUser(req, res) {
 
 }
 
-async function getFollowing(req, res) {
+const getFollowing = async (req, res) => {
 
     try {
     
@@ -189,7 +189,7 @@ async function getFollowing(req, res) {
     
     }
 
-    async function getFollowers(req, res) {
+   const getFollowers = async (req, res) => {
 
         try {
             const user = await User.findById(req.user.id)
@@ -214,4 +214,16 @@ async function getFollowing(req, res) {
     }
 
 
-module.exports = { getCurrentUser, followUser, unFollowUser, getAllUsers, updateUser, getFollowing, deleteUser, getAllUsersById, getFollowers, getUser, getSelectedUser }
+module.exports = { 
+    getCurrentUser, 
+    followUser,
+     unFollowUser,
+      getAllUsers,
+       updateUser, 
+       getFollowing, 
+       deleteUser, 
+       getAllUsersById,
+        getFollowers, 
+        getUser,
+         getSelectedUser
+         }

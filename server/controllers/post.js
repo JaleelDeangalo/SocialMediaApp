@@ -2,7 +2,7 @@ const User = require("../models/User")
 const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
-async function createPost(req, res) {
+const createPost = async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -21,7 +21,7 @@ async function createPost(req, res) {
             user: req.user.id
         })
 
-         await user.updateOne({$push: {myPosts: newPost}})
+         await user.updateOne({$push: { myPosts: newPost  }})
         
          await newPost.save()
 
@@ -34,7 +34,7 @@ async function createPost(req, res) {
 }
 
 
-async function updatePost(req, res) {
+const updatePost = async (req, res) => {
 
 try {
      
@@ -52,7 +52,7 @@ if(post.user.toString() !== req.user.id.toString()) {
 }
 
 
-async function getPostById(req, res) {
+const getPostById = async (req, res) => {
 
     try {
         const post = await Post.find({user: req.params.id})
@@ -64,7 +64,7 @@ async function getPostById(req, res) {
 
 }
 
-async function deletePost(req, res) {
+const deletePost = async (req, res)  => {
     try {
         
         const post = await Post.findById(req.params.id)
@@ -85,7 +85,7 @@ async function deletePost(req, res) {
 }
 
 
-async function likePost(req, res) {
+const likePost = async (req, res) => {
 
     try {
         const post = await Post.findById(req.params.id)
@@ -104,7 +104,7 @@ async function likePost(req, res) {
   
 }
 
-async function unlikePost(req, res) {
+const unlikePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
       
@@ -122,7 +122,7 @@ async function unlikePost(req, res) {
     }
 }
 
-async function getAllPosts(req, res) {
+const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find().sort({ date: -1})
         res.status(200).json(posts)
@@ -132,7 +132,7 @@ async function getAllPosts(req, res) {
     }
 }
 
-async function getTimelinePost(req, res) {
+const getTimelinePost = async (req, res)  => {
 
     try {
         const currentUser = await User.findById(req.user.id)
@@ -150,7 +150,7 @@ async function getTimelinePost(req, res) {
 
 }
 
-async function getPostComments(req, res) {
+const getPostComments = async (req, res) => {
 
     try {
 
