@@ -1,4 +1,4 @@
-const Conversation = require("../../models/Conversations")
+const Conversation = require("../models/Conversations")
 
 
 
