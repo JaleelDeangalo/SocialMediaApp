@@ -6,10 +6,10 @@ members: {
     type: Array
 },
 
-sender: {
+senderId: {
     type: String
 }, 
-receiver: {
+recieverId: {
     type: String
 }
 

@@ -8,8 +8,8 @@ const newConversation = async (req, res) => {
         
         const newConversation = new Conversation({
             members: [req.body.senderId, req.body.recieverId],
-            sender: req.body.senderId,
-            reciever: req.body.recieverId
+            senderId: req.body.senderId,
+            recieverId: req.body.recieverId
         })
 
          await newConversation.save()
@@ -37,6 +37,10 @@ const getUserConversations = async (req, res) => {
             sender: req.user.id,
             reciever: req.user.id
         })
+
+        if(!conversations) {
+            return res.status(404).json({Message: "Conversations not found"})
+        }
 
         res.status(200).json(conversations)
 
