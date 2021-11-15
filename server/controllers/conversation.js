@@ -28,15 +28,17 @@ const getUserConversations = async (req, res) => {
 
     try {
         
-        /*
+        
         const conversations = await Conversation.find({
             members: { $in: [req.user.id]}
         })
-        */
+        
+       /*
         const conversations = await Conversation.find({
             sender: req.user.id,
             reciever: req.user.id
         })
+        */
 
         if(!conversations) {
             return res.status(404).json({Message: "Conversations not found"})
