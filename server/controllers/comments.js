@@ -78,12 +78,20 @@ const deleteComment = async (req, res) => {
 
     try {
 
+        const postID = req.body 
         const comment = await Comments.findById(req.params.id)
+        const posts = await Post.findOne({ _id: postID})
         if(comment.user.toString() !== req.user.id) {
             return res.status(401).send(`Not Authorized`)
         }
 
+        if(!posts) {
+            return res.status(404).json({Message: "Post not found"})
+        }
+
         await comment.remove()
+        posts.comments.pull(comment)
+
         res.status(200).json({Message: "Comment removed"})
 
     } catch(error) {
@@ -107,7 +115,7 @@ const updateComment = async(req, res) => {
         if(comment.user.toString() !== req.user.id) {
             return res.status(401).send(`Not Authorized`)
         }
-           const updatedComment = await comment.updateOne({$set: req.body})
+            await comment.updateOne({$set: req.body})
             res.status(200).json({Message: "Comment updated"})
 
     } catch (error) {
@@ -115,6 +123,5 @@ const updateComment = async(req, res) => {
         res.status(500).send(`Server Error`)
     }
 }
-
 
 module.exports = { addComment, deleteComment, updateComment, getCommentsById, getAllComments}

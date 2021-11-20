@@ -22,7 +22,7 @@ const login = async(req, res) => {
             return res.status(400).json({Message: "Email or password is invalid"})
         }
 
-        // Compares input password with hashes password
+        // Compares input password with hashed password
         const isMatched = await bcrypt.compare(password, user.password)
 
         if(!isMatched) {
@@ -37,7 +37,7 @@ const login = async(req, res) => {
             email,
             password
         }
-
+        // Signs and returns the token to client
         jwt.sign(Payload, process.env.SECRET, (error, token) => {
 
             if(error) {
@@ -96,6 +96,7 @@ const signUp = async(req, res) => {
             }
         }
 
+           // Signs and returns the token to client
         jwt.sign(Payload, process.env.SECRET, (error, token) => {
 
               if(error) {
