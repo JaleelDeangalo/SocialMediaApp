@@ -1,7 +1,5 @@
 const Conversation = require("../models/Conversations")
 
-
-
 const newConversation = async (req, res) => {
 
     try {
@@ -35,8 +33,6 @@ const newConversation = async (req, res) => {
 const getUserConversations = async (req, res) => {
 
     try {
-        
-        
         const conversations = await Conversation.find({
             members: { $in: [req.user.id]}
         })
@@ -52,6 +48,5 @@ const getUserConversations = async (req, res) => {
         res.status(500).json({Message: error})
     }
 }
-
 
 module.exports = { newConversation, getUserConversations }
