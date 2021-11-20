@@ -5,15 +5,7 @@ const Conversation = require("../models/Conversations")
 const newConversation = async (req, res) => {
 
     try {
-        
-        const conversations = await Conversation.find({
-            members: { $in: [req.user.id]}
-        })
-
-        if(conversations) {
-            return res.status(400).json({Message: "Conversation Created"})
-        }
-
+  
         const newConversation = new Conversation({
             members: [req.body.senderId, req.body.recieverId],
             senderId: req.body.senderId,
