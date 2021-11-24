@@ -55,7 +55,6 @@ const login = async(req, res) => {
 
 const signUp = async(req, res) => {
 
-
     // Checks if username, email and password exists or is valid
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -65,7 +64,7 @@ const signUp = async(req, res) => {
     const { username, email, password } = req.body
 
     try {
-        
+
         // Queries User model for E input email
         let user = await User.findOne({ email })
 
@@ -95,7 +94,6 @@ const signUp = async(req, res) => {
                 id: user.id
             }
         }
-
            // Signs and returns the token to client
         sign(Payload, process.env.SECRET, (error, token) => {
 
@@ -105,14 +103,13 @@ const signUp = async(req, res) => {
 
              res.status(200).json({token})
 
-    })
+        })
 
       }  catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
     }
 }
-
 
 // For client web apps only
 const logout = async(req, res) => {
@@ -126,6 +123,5 @@ const logout = async(req, res) => {
     }
   
 }
-
 
 module.exports = { login, signUp, logout }

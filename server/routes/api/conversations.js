@@ -1,5 +1,4 @@
-const express = require("express")
-const router = express.Router()
+const router = require("express").Router()
 const { newConversation, getUserConversations } = require("../../controllers/conversation")
 const token = require("../../middleware/token")
 

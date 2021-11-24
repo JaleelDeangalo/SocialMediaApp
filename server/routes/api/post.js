@@ -1,5 +1,4 @@
-const express = require("express")
-const router = express.Router()
+const router = require("express").Router()
 const { check } = require("express-validator")
 const  token  = require("../../middleware/token")
 const { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost, getPostComments } = require("../../controllers/post")

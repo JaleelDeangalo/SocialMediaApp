@@ -1,6 +1,5 @@
 const Messages = require("../models/Messages")
 
-
 const createMessage = async (req, res) => {
 
     try {

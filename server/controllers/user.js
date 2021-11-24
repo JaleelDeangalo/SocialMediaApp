@@ -1,5 +1,4 @@
 const User = require("../models/User")
-const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
 const getCurrentUser = async(req, res) => {

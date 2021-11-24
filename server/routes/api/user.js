@@ -1,8 +1,18 @@
-const express = require("express")
-const router = express.Router()
+const router = require("express").Router()
 const token = require("../../middleware/token")
-const { followUser, getCurrentUser, unFollowUser, updateUser, getAllUsers, deleteUser, getFollowing, getFollowers, getAllUsersById, getUser, getSelectedUser} = require("../../controllers/user")
-const { check } = require("express-validator")    
+const { check } = require("express-validator")  
+const { followUser,
+     getCurrentUser, 
+     unFollowUser,
+      updateUser,
+       getAllUsers, 
+       deleteUser,
+        getFollowing,
+         getFollowers, 
+         getAllUsersById, 
+         getUser, 
+         getSelectedUser} = require("../../controllers/user")
+  
 
 router.get("/", token, getCurrentUser)
 

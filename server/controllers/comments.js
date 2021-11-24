@@ -3,7 +3,6 @@ const Comments = require("../models/Comment")
 const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
-
 const addComment = async (req, res) => {
 
     const errors = validationResult(req)
@@ -42,7 +41,6 @@ const addComment = async (req, res) => {
         res.status(500).send(`Server Error`)
     }
 }
-
 
     const getAllComments = async (req, res)  => {
 
@@ -99,7 +97,6 @@ const deleteComment = async (req, res) => {
         res.status(500).send(`Server Error`)
     }
 }
-
 
 const updateComment = async(req, res) => {
 

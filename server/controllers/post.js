@@ -33,7 +33,6 @@ const createPost = async (req, res) => {
 
 }
 
-
 const updatePost = async (req, res) => {
 
 try {
@@ -50,7 +49,6 @@ if(post.user.toString() !== req.user.id.toString()) {
 }
 
 }
-
 
 const getPostById = async (req, res) => {
 

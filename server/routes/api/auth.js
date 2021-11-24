@@ -1,10 +1,9 @@
-const express = require("express")
+const router = require("express").Router()
 const { check } = require("express-validator")
 const { login, logout, signUp } = require("../../controllers/auth")
-const router = express.Router()
-const auth = require("../../middleware/token")
+const token = require("../../middleware/token")
 
-router.get("/logout", auth, logout)
+router.get("/logout", token, logout)
 
 router.post("/signup", 
 [
