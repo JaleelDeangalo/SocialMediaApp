@@ -2,16 +2,16 @@ const express = require("express")
 const router = express.Router()
 const { check } = require("express-validator")
 const { addComment, deleteComment, updateComment, getCommentsById, getAllComments} = require("../../controllers/comments")
-const auth = require("../../middleware/token")
+const token = require("../../middleware/token")
 
-router.post("/:id", [check("comment", "Comment is required").notEmpty()], auth, addComment)
+router.post("/:id", [check("comment", "Comment is required").notEmpty()], token, addComment)
 
-router.get("/:id", auth, getCommentsById)
+router.get("/:id", token, getCommentsById)
 
-router.put("/:id", [check("comment", "Comment is required").notEmpty()], auth, updateComment)
+router.put("/:id", [check("comment", "Comment is required").notEmpty()], token, updateComment)
 
-router.delete("/:id", auth, deleteComment)
+router.delete("/:id", token, deleteComment)
 
-router.get("/", auth, getAllComments)
+router.get("/", token, getAllComments)
 
 module.exports = router

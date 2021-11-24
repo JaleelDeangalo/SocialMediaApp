@@ -1,34 +1,34 @@
 const express = require("express")
 const router = express.Router()
-const auth = require("../../middleware/token")
+const token = require("../../middleware/token")
 const { followUser, getCurrentUser, unFollowUser, updateUser, getAllUsers, deleteUser, getFollowing, getFollowers, getAllUsersById, getUser, getSelectedUser} = require("../../controllers/user")
 const { check } = require("express-validator")    
 
-router.get("/", auth, getCurrentUser)
+router.get("/", token, getCurrentUser)
 
-router.get("/getUsers", auth, getAllUsers)
+router.get("/getUsers", token, getAllUsers)
 
-router.get("/getUsers/:id", auth, getAllUsersById)
+router.get("/getUsers/:id", token, getAllUsersById)
 
-router.get("/getUser/:id", auth, getUser)
+router.get("/getUser/:id", token, getUser)
 
-router.get("/selectedUser/:id", auth, getSelectedUser)
+router.get("/selectedUser/:id", token, getSelectedUser)
 
-router.put("/follow/:id", auth, followUser)
+router.put("/follow/:id", token, followUser)
 
-router.put("/unfollow/:id", auth, unFollowUser)
+router.put("/unfollow/:id", token, unFollowUser)
 
 router.put("/updateUser",
 [
     check("username", "username is required").notEmpty(),
     check("email", "email is required").notEmpty(),
     check("bio", "bio is required").notEmpty()
-], auth, updateUser)
+], token, updateUser)
 
-router.delete("/", auth, deleteUser)
+router.delete("/", token, deleteUser)
 
-router.get("/following", auth, getFollowing)
+router.get("/following", token, getFollowing)
 
-router.get("/followers", auth, getFollowers)
+router.get("/followers", token, getFollowers)
 
 module.exports = router
