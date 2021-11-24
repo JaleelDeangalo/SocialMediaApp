@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken")
+const { verify } = require("jsonwebtoken")
 
 module.exports = (req, res, next) => {
 
@@ -10,7 +10,7 @@ if(!token) {
 
 try {
 
-    jwt.verify(token, process.env.SECRET, (error, decoded) => {
+    verify(token, process.env.SECRET, (error, decoded) => {
     if(error) {
         return res.status(401).json({ Message: "Token not valid" })
     } else {

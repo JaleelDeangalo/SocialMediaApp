@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator")
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcryptjs")
+const { sign } = require("jsonwebtoken")
+const { hash, genSalt, compare } = require("bcryptjs")
 const User = require("../models/User")
 
 const login = async(req, res) => {
@@ -23,7 +23,7 @@ const login = async(req, res) => {
         }
 
         // Compares input password with hashed password
-        const isMatched = await bcrypt.compare(password, user.password)
+        const isMatched = await compare(password, user.password)
 
         if(!isMatched) {
             return res.status(400).json({ Message: " Email or password is invalid"})
@@ -38,7 +38,7 @@ const login = async(req, res) => {
             password
         }
         // Signs and returns the token to client
-        jwt.sign(Payload, process.env.SECRET, (error, token) => {
+        sign(Payload, process.env.SECRET, (error, token) => {
 
             if(error) {
                 throw error
@@ -84,8 +84,8 @@ const signUp = async(req, res) => {
         })
 
         // Hashes input password
-        const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(password, salt)
+        const salt = await genSalt(10)
+        user.password = await hash(password, salt)
 
         await user.save()
 
@@ -97,7 +97,7 @@ const signUp = async(req, res) => {
         }
 
            // Signs and returns the token to client
-        jwt.sign(Payload, process.env.SECRET, (error, token) => {
+        sign(Payload, process.env.SECRET, (error, token) => {
 
               if(error) {
                 throw error

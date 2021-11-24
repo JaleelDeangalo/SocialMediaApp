@@ -30,7 +30,7 @@ const Port = process.env.PORT || 5500
 // Production URL:  https://artsketch.herokuapp.com
 // Development URL: http://localhost:5500
 // Websocket Dev URL: ws://localhost:5500
-app.listen(Port, () => console.log(`Server running on port ${Port}`))
+app.listen(Port, () => console.log(`Server is running on port ${Port}`))
 
 
 // WebSocket Implementation 

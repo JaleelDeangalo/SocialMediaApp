@@ -1,9 +1,9 @@
-const mongoose = require("mongoose")
+const { connect } = require("mongoose")
 
 const Connect = async () =>  {
 
     try {
-        await mongoose.connect(process.env.MONGO_URL,
+        await connect(process.env.MONGO_URL,
            { useCreateIndex: true, 
              useFindAndModify: true,
              useNewUrlParser: true, 
