@@ -12,7 +12,7 @@ try {
 
     verify(token, process.env.SECRET, (error, decoded) => {
     if(error) {
-        return res.status(401).json({ Message: "Token not valid" })
+        return res.status(403).json({ Message: "Token not valid" })
     } else {
         req.user = decoded.user
         next()
