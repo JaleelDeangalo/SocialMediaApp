@@ -40,7 +40,7 @@ const readConversations = async (req, res) => {
     try {
 
         const conversations = await Conversation.find({
-            members: { $in: [req.params.id]}
+            members: { $in: [req.user.id]}
         })
         
         if(!conversations) {
