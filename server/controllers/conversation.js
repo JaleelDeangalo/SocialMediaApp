@@ -5,7 +5,7 @@ const createConversation = async (req, res) => {
     try {
 
         const conversations = await Conversation.find({
-            members: { $in: [req.user.id] }
+            members: { $in: [req.params.id] }
         })
 
         if(conversations) {
