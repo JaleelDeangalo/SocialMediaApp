@@ -1,28 +1,13 @@
 const router = require("express").Router()
 const token = require("../../middleware/token")
 const { check } = require("express-validator")  
-const { followUser,
-     getCurrentUser, 
-     unFollowUser,
-      updateUser,
-       getAllUsers, 
-       deleteUser,
-        getFollowing,
-         getFollowers, 
-         getAllUsersById, 
-         getUser, 
-         getSelectedUser} = require("../../controllers/user")
-  
+const { readFollowers, readFollowing, followUser, readCurrentUser, unFollowUser, readUser, readUsers, deleteCurrentUser, updateCurrentUser} = require("../../controllers/user")
 
-router.get("/", token, getCurrentUser)
+router.get("/", token, readCurrentUser)
 
-router.get("/getUsers", token, getAllUsers)
+router.get("/getUsers", token, readUsers)
 
-router.get("/getUsers/:id", token, getAllUsersById)
-
-router.get("/getUser/:id", token, getUser)
-
-router.get("/selectedUser/:id", token, getSelectedUser)
+router.get("/getUser/:id", token, readUser)
 
 router.put("/follow/:id", token, followUser)
 
@@ -33,12 +18,12 @@ router.put("/updateUser",
     check("username", "username is required").notEmpty(),
     check("email", "email is required").notEmpty(),
     check("bio", "bio is required").notEmpty()
-], token, updateUser)
+], token, updateCurrentUser)
 
-router.delete("/", token, deleteUser)
+router.delete("/", token, deleteCurrentUser)
 
-router.get("/following", token, getFollowing)
+router.get("/following", token, readFollowing)
 
-router.get("/followers", token, getFollowers)
+router.get("/followers", token, readFollowers)
 
 module.exports = router

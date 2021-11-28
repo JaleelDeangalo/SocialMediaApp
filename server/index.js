@@ -19,7 +19,7 @@ app.use("/api/messages", require("./routes/api/messages"))
 app.use("/api/conversations", require("./routes/api/conversations"))
 
 app.get("/", (req, res) => {
-    res.send("Hello Node")
+    res.send("Social Media API")
 })
 // Connects to MongoDB
 Connect()

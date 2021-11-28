@@ -3,7 +3,7 @@ const Comments = require("../models/Comment")
 const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
-const addComment = async (req, res) => {
+const createComment = async (req, res) => {
 
     const errors = validationResult(req)
 
@@ -42,7 +42,7 @@ const addComment = async (req, res) => {
     }
 }
 
-    const getAllComments = async (req, res)  => {
+    const readComments = async (req, res)  => {
 
         try {
 
@@ -56,7 +56,7 @@ const addComment = async (req, res) => {
         }
     }
 
- const getCommentsById = async (req, res) => {
+ const readComment = async (req, res) => {
 
     try {
 
@@ -121,4 +121,4 @@ const updateComment = async(req, res) => {
     }
 }
 
-module.exports = { addComment, deleteComment, updateComment, getCommentsById, getAllComments}
+module.exports = { createComment, deleteComment, updateComment, readComment, readComments }

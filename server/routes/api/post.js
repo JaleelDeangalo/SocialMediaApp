@@ -1,8 +1,7 @@
 const router = require("express").Router()
 const { check } = require("express-validator")
 const  token  = require("../../middleware/token")
-const { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost, getPostComments } = require("../../controllers/post")
-
+const { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments } = require("../../controllers/post")
 
 router.post("/",
 [
@@ -12,9 +11,9 @@ router.post("/",
 , token,
 createPost)
 
-router.get("/", getAllPosts)
+router.get("/", readPosts)
 
-router.get("/:id", token, getPostById)
+router.get("/:id", token, readPost)
 
 router.delete("/:id", token, deletePost)
 
@@ -24,8 +23,8 @@ router.put("/like/:id", token, likePost)
 
 router.put("/unlike/:id", token, unlikePost)
 
-router.get("/postComments/:id", token, getPostComments)
+router.get("/postComments/:id", token, readPostComments)
 
-router.get("/timeline", token, getTimelinePost)
+router.get("/timeline", token, readTimelinePost)
 
 module.exports = router

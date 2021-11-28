@@ -50,7 +50,7 @@ if(post.user.toString() !== req.user.id.toString()) {
 
 }
 
-const getPostById = async (req, res) => {
+const readPost = async (req, res) => {
 
     try {
         const post = await Post.find({user: req.params.id})
@@ -120,7 +120,7 @@ const unlikePost = async (req, res) => {
     }
 }
 
-const getAllPosts = async (req, res) => {
+const readPosts = async (req, res) => {
     try {
         const posts = await Post.find().sort({ date: -1})
         res.status(200).json(posts)
@@ -130,7 +130,7 @@ const getAllPosts = async (req, res) => {
     }
 }
 
-const getTimelinePost = async (req, res)  => {
+const readTimelinePost = async (req, res)  => {
 
     try {
         const currentUser = await User.findById(req.user.id)
@@ -148,7 +148,7 @@ const getTimelinePost = async (req, res)  => {
 
 }
 
-const getPostComments = async (req, res) => {
+const readPostComments = async (req, res) => {
 
     try {
 
@@ -174,4 +174,4 @@ const getPostComments = async (req, res) => {
 
 }
 
-module.exports = { createPost, getPostById, getAllPosts, deletePost, likePost, unlikePost, updatePost, getTimelinePost, getPostComments}
+module.exports = { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments}

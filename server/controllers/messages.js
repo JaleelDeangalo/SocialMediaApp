@@ -13,7 +13,7 @@ const createMessage = async (req, res) => {
 
 }
 
-const getMessages = async (req,res) => {
+const readMessages = async (req,res) => {
 
     try {
         const messages = await Messages.find({
@@ -27,4 +27,4 @@ const getMessages = async (req,res) => {
 
 }
 
-module.exports = { createMessage, getMessages }
+module.exports = { createMessage, readMessages }

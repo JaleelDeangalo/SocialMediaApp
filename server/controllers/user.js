@@ -1,7 +1,7 @@
 const User = require("../models/User")
 const { validationResult } = require("express-validator")
 
-const getCurrentUser = async(req, res) => {
+const readCurrentUser = async(req, res) => {
 
     try {
         const user = await User.findById(req.user.id).select("-password")
@@ -17,7 +17,7 @@ const getCurrentUser = async(req, res) => {
     
 }
 
-const getUser = async(req, res) => {
+const readUser = async(req, res) => {
 
 try {
 
@@ -33,7 +33,7 @@ try {
 
 }
 
-const updateUser = async(req, res) => {
+const updateCurrentUser = async(req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -54,26 +54,7 @@ const updateUser = async(req, res) => {
 
 }
 
-const getSelectedUser = async(req, res) => {
-
-
-    try {
-
-        const user = await User.findById(req.params.id)
-
-        if(!user) {
-            return res.status(404).json({Message: "User not found"})
-        }
-
-        res.status(200).json(user)
-
-    } catch(error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
-    }
-}
-
-const deleteUser = async (req, res) => {
+const deleteCurrentUser = async (req, res) => {
 
     try {
 
@@ -90,21 +71,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
-const getAllUsersById = async(req, res)  => {
-
-    try {
-        const users = await User.find(req.params.id)
-        if(!users) {
-            return res.status(400).json({Message: "Users not found"})
-        }
-        res.status(200).json(users)
-    } catch(error) {
-        console.log(error)
-        res.status(500).send("Server Error")
-    }
-}
-
-const getAllUsers = async(req, res)  => {
+const readUsers = async(req, res)  => {
 
     try {
       const users = await User.find().sort({ date: -1})
@@ -162,7 +129,7 @@ const unFollowUser = async (req, res) => {
 
 }
 
-const getFollowing = async (req, res) => {
+const readFollowing = async (req, res) => {
 
     try {
     
@@ -187,7 +154,7 @@ const getFollowing = async (req, res) => {
     
     }
 
-   const getFollowers = async (req, res) => {
+   const readFollowers = async (req, res) => {
 
         try {
             const user = await User.findById(req.user.id)
@@ -212,16 +179,4 @@ const getFollowing = async (req, res) => {
     }
 
 
-module.exports = { 
-    getCurrentUser, 
-    followUser,
-     unFollowUser,
-      getAllUsers,
-       updateUser, 
-       getFollowing, 
-       deleteUser, 
-       getAllUsersById,
-        getFollowers, 
-        getUser,
-         getSelectedUser
-         }
+module.exports = { readCurrentUser, followUser, unFollowUser, readUsers, updateCurrentUser, readFollowing, deleteCurrentUser, readFollowers, readUser }

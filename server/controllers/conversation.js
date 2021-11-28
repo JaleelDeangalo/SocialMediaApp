@@ -30,7 +30,7 @@ const createConversation = async (req, res) => {
 
 }
 
-const findConversations = async (req, res) => {
+const readConversations = async (req, res) => {
 
     try {
         const conversations = await Conversation.find({
@@ -49,4 +49,4 @@ const findConversations = async (req, res) => {
     }
 }
 
-module.exports = { createConversation, findConversations }
+module.exports = { createConversation, readConversations }
