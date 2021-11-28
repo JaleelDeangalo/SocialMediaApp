@@ -8,14 +8,19 @@ const createConversation = async (req, res) => {
             members: { $in: [req.params.id] }
         })
 
+        /*
         if(conversations) {
             return res.status(400).json({ Message: "Conversation Exists" })
         }
+        */
 
         const newConversation = new Conversation({
-            members: [req.body.senderId, req.body.recieverId],
+            members: [req.body.senderId, req.body.recieverId]
+            /*
+            ,
             senderId: req.body.senderId,
             recieverId: req.body.recieverId
+            */
         })
 
          await newConversation.save()
@@ -33,6 +38,7 @@ const createConversation = async (req, res) => {
 const readConversations = async (req, res) => {
 
     try {
+
         const conversations = await Conversation.find({
             members: { $in: [req.params.id]}
         })
