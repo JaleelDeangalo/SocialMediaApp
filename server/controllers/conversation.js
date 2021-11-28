@@ -43,9 +43,11 @@ const readConversations = async (req, res) => {
             members: { $in: [req.user.id]}
         })
         
+        /*
         if(!conversations) {
             return res.status(404).json({Message: "Conversations not found"})
         }
+        */
 
         res.status(200).json(conversations)
 
