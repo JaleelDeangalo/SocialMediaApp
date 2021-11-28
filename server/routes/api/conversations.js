@@ -4,6 +4,6 @@ const token = require("../../middleware/token")
 
 router.post("/create/:id", token, createConversation)
 
-router.get("/read/:id", token, readConversations)
+router.get("/read", token, readConversations)
 
 module.exports = router
