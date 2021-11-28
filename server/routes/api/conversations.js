@@ -1,11 +1,11 @@
 const router = require("express").Router()
-const { newConversation, getUserConversations } = require("../../controllers/conversation")
+const { createConversation, findConversations } = require("../../controllers/conversation")
 const token = require("../../middleware/token")
 
 
-router.post("/", token, newConversation)
+router.post("/create", token, createConversation)
 
-router.get("/", token, getUserConversations)
+router.get("/read/:id", token, findConversations)
 
 
 module.exports = router

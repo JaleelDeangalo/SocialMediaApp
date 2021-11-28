@@ -1,15 +1,15 @@
 const Conversation = require("../models/Conversations")
 
-const newConversation = async (req, res) => {
+const createConversation = async (req, res) => {
 
     try {
 
         const conversations = await Conversation.find({
-            members: { $in: [req.user.id]}
+            members: { $in: [req.user.id] }
         })
 
         if(conversations) {
-            return res.status(400).json({Message: "Conversation Exists"})
+            return res.status(400).json({ Message: "Conversation Exists" })
         }
 
         const newConversation = new Conversation({
@@ -30,11 +30,11 @@ const newConversation = async (req, res) => {
 
 }
 
-const getUserConversations = async (req, res) => {
+const findConversations = async (req, res) => {
 
     try {
         const conversations = await Conversation.find({
-            members: { $in: [req.user.id]}
+            members: { $in: [req.params.id]}
         })
         
         if(!conversations) {
@@ -49,4 +49,4 @@ const getUserConversations = async (req, res) => {
     }
 }
 
-module.exports = { newConversation, getUserConversations }
+module.exports = { createConversation, findConversations }
