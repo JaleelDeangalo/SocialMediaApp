@@ -2,7 +2,7 @@ const { verify } = require("jsonwebtoken")
 
 module.exports = (req, res, next) => {
 
-const token = req.header("x-auth-token")
+const token = req.header("Authorization")
 
 if(!token) {
     return res.status(401).json({ Message: "No Token Acccess Denied" })

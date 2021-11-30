@@ -91,7 +91,7 @@ const followUser = async(req, res) => {
         // Gets currentUser
         const currentUser = await  User.findById(req.user.id)
       
-        if(currentUser.id.toString() === req.params.id.toString()) {
+        if(currentUser.id.toString() === req.params.id) {
             return res.status(400).json({Message: "Error"})
         }
 
@@ -106,14 +106,13 @@ const followUser = async(req, res) => {
 
 }
 
-
 const unFollowUser = async (req, res) => {
 
     try {
-        const user = await User.findById(req.query.id)
+        const user = await User.findById(req.params.id)
         const currentUser = await User.findById(req.user.id)
 
-        if(currentUser.id.toString() === req.query.id.toString()) {
+        if(currentUser.id.toString() === req.params.id) {
             return res.status(400).json({Message: "Cannot unfollow yourself"})
         }
 
@@ -177,6 +176,5 @@ const readFollowing = async (req, res) => {
         }
 
     }
-
 
 module.exports = { readCurrentUser, followUser, unFollowUser, readUsers, updateCurrentUser, readFollowing, deleteCurrentUser, readFollowers, readUser }

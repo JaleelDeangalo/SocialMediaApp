@@ -4,13 +4,6 @@ const ConversationSchema = new Schema({
 
 members: {
     type: Array
-},
-
-senderId: {
-    type: String
-}, 
-recieverId: {
-    type: String
 }
 
 },{timestamps: true})
