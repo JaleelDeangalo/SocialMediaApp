@@ -88,9 +88,11 @@ const likePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
 
-        if (post.likes.some(like => like.user.toString() === req.user.id)) {
+        /*
+        if (post.likes.some(like => like.user === req.user.id)) {
             return res.status(400).json({ Message: "Post already liked" });
           }
+          */
     
           await post.updateOne({$push: {likes: req.user.id}})
     
@@ -106,9 +108,11 @@ const unlikePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
       
-        if (!post.likes.some(like => like.user.toString() === req.user.id)) {
+        /*
+        if (!post.likes.some(like => like.user === req.user.id)) {
             return res.status(400).json({ Message: 'Post already unliked' });
         }
+        */
 
         await post.updateOne({$pull: { likes: req.user.id}})
 
