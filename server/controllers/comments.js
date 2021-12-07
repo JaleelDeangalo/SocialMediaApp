@@ -42,7 +42,7 @@ const createComment = async (req, res) => {
     }
 }
 
-    const readComments = async (req, res)  => {
+const readComments = async (req, res)  => {
 
         try {
 
@@ -54,7 +54,7 @@ const createComment = async (req, res) => {
             console.log(error)
             res.status(500).send("Server Error")
         }
-    }
+}
 
  const readComment = async (req, res) => {
 
@@ -82,13 +82,9 @@ const deleteComment = async (req, res) => {
         if(comment.user.toString() !== req.user.id) {
             return res.status(401).send(`Not Authorized`)
         }
-
-        if(!posts) {
-            return res.status(404).json({Message: "Post not found"})
-        }
-
-        await comment.remove()
+        
         posts.comments.pull(comment)
+        await comment.remove()
 
         res.status(200).json({Message: "Comment removed"})
 

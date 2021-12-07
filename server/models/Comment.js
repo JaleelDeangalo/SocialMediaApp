@@ -22,11 +22,11 @@ const CommentSchema = new Schema({
     },
 
     date: {
-        type: Number,
-        default: new Date().getTime()
+        type: Date,
+        default: new Date()
     }
 
-})
+},{timestamps:true})
 
 
 module.exports = model("comments", CommentSchema)
