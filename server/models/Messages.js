@@ -14,7 +14,7 @@ message: {
     type: String
 }
 
-},{timestamps: true})
+})
 
 
 module.exports = model("Messages", MessageSchema)

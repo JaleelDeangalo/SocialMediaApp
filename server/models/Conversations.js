@@ -6,7 +6,7 @@ members: {
     type: Array
 }
 
-},{timestamps: true})
+})
 
 
 module.exports = model("Conversations", ConversationSchema)

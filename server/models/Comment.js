@@ -26,7 +26,7 @@ const CommentSchema = new Schema({
         default: new Date()
     }
 
-},{timestamps:true})
+})
 
 
 module.exports = model("comments", CommentSchema)

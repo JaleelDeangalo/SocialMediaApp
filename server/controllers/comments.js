@@ -28,7 +28,7 @@ const createComment = async (req, res) => {
             postID
         })
 
-        posts.comments.unshift(newComment)
+        posts.comments.push(req.user.id)
 
         await posts.save()
 
@@ -82,7 +82,7 @@ const deleteComment = async (req, res) => {
         if(comment.user.toString() !== req.user.id) {
             return res.status(401).send(`Not Authorized`)
         }
-        
+
         posts.comments.pull(comment)
         await comment.remove()
 

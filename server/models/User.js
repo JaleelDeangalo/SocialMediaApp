@@ -51,7 +51,7 @@ const UserSchema = new Schema({
         default:  new Date()
     }
 
-},{timestamps: true})
+})
 
 
 module.exports = model("User", UserSchema)
