@@ -66,11 +66,13 @@ const deletePost = async (req, res)  => {
     try {
         
         const post = await Post.findById(req.params.id)
+        const user = await User.findById(req.user.id)
         
         if(post.user.toString() !== req.user.id) {
             return res.status(401).json({Message: "User not authorized"})
         }
 
+        await user.myPosts.pull(post)
         await post.remove()
 
         res.status(200).json({Message: "Post removed"})
@@ -87,12 +89,6 @@ const likePost = async (req, res) => {
 
     try {
         const post = await Post.findById(req.params.id)
-
-        /*
-        if (post.likes.some(like => like.user === req.user.id)) {
-            return res.status(400).json({ Message: "Post already liked" });
-          }
-          */
     
           await post.updateOne({$push: {likes: req.user.id}})
     

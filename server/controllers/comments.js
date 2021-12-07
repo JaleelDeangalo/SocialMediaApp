@@ -83,7 +83,7 @@ const deleteComment = async (req, res) => {
             return res.status(401).send(`Not Authorized`)
         }
 
-        posts.comments.pull(comment)
+        await posts.comments.pull(comment)
         await comment.remove()
 
         res.status(200).json({Message: "Comment removed"})
