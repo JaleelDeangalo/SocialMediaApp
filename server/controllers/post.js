@@ -72,7 +72,7 @@ const deletePost = async (req, res)  => {
             return res.status(401).json({Message: "User not authorized"})
         }
 
-        await user.myPosts.pull(post)
+        await user.updateOne({$pull: { myPosts: post }})
         await post.remove()
 
         res.status(200).json({Message: "Post removed"})
@@ -102,14 +102,9 @@ const likePost = async (req, res) => {
 
 const unlikePost = async (req, res) => {
     try {
+        
         const post = await Post.findById(req.params.id)
       
-        /*
-        if (!post.likes.some(like => like.user === req.user.id)) {
-            return res.status(400).json({ Message: 'Post already unliked' });
-        }
-        */
-
         await post.updateOne({$pull: { likes: req.user.id}})
 
          res.status(200).json({Message: "Post has been unliked"})

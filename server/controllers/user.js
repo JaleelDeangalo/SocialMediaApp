@@ -153,7 +153,7 @@ const readFollowing = async (req, res) => {
     
     }
 
-   const readFollowers = async (req, res) => {
+const readFollowers = async (req, res) => {
 
         try {
             const user = await User.findById(req.user.id)
