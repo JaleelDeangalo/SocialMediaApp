@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator")
 const jwt = require("jsonwebtoken")
-const secret = require("../config/keys").secret
+const  { secret } = require("../config/keys")
 const bcrypt = require("bcryptjs")
 const User = require("../models/User")
 const gravatar = require("gravatar")

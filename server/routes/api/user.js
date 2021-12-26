@@ -1,13 +1,14 @@
 const express = require("express")
 const router = express.Router()
-const auth = require("../../middleware/token")
+const { auth } = require("../../middleware/token")
 const { 
     followUser,
     getCurrentUser,
     unFollowUser,
     updateUser,
     getAllUsers,
-    getSelectedUser } = require("../../controllers/user")
+    getSelectedUser 
+} = require("../../controllers/user")
 const { check } = require("express-validator")    
 
 

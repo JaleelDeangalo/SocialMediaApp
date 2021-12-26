@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken")
 const JWT = require("../config/keys").secret
 
 
-module.exports = (req, res, next) => {
+const auth = async(req, res, next) => {
 
 const token = req.header("x-auth-token")
 
@@ -23,7 +23,9 @@ try {
 
 } catch (error) {
     console.log(error)
-    res.status(500).json({Message : "Server Error"})
+    res.status(500).json({Message: "Server Error"})
 }
 
 }
+
+module.exports = { auth }
