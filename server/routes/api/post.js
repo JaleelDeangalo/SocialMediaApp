@@ -1,43 +1,31 @@
-const express = require("express")
-const router = express.Router()
+const router = require("express").Router()
 const { check } = require("express-validator")
-const { auth } = require("../../middleware/token")
-const { createPost, 
-        findPostById,
-        findAllPosts, 
-        deletePost,
-        likePost,
-        unlikePost,
-        addComment,
-        getComments,
-        removeComment } = require("../../controllers/post")
+const  token  = require("../../middleware/token")
+const { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments } = require("../../controllers/post")
+
 
 router.post("/",
 [
-    check("text", "Text is required").notEmpty()
+    check("description", "Text is required").notEmpty(),
+    check("image", "Image is required").notEmpty()
 ]
-, auth,
+, token,
 createPost)
 
-router.get("/", findAllPosts)
+router.get("/", readPosts)
 
-router.get("/:id", auth, findPostById)
+router.get("/:id", token, readPost)
 
-router.delete("/:id", auth, deletePost)
+router.delete("/:id", token, deletePost)
 
-router.put("/like/:id", auth, likePost)
+router.put("/:id", token, updatePost)
 
-router.put("/unlike/:id", auth, unlikePost)
+router.put("/like/:id", token, likePost)
 
-router.post("/comment/:id", 
-[
-    check("text", "Text is required").notEmpty()
-],
-auth,
-addComment)
+router.put("/unlike/:id", token, unlikePost)
 
-router.delete("/comment/:id/:comment_id", auth, removeComment)
+router.get("/postComments/:id", token, readPostComments)
 
-router.get("/comments/:id", auth, getComments)
+router.get("/timeline", token, readTimelinePost)
 
 module.exports = router

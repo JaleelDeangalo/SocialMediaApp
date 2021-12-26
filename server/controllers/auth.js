@@ -1,13 +1,11 @@
 const { validationResult } = require("express-validator")
-const jwt = require("jsonwebtoken")
-const  { secret } = require("../config/keys")
-const bcrypt = require("bcryptjs")
+const { sign } = require("jsonwebtoken")
+const { hash, genSalt, compare } = require("bcryptjs")
 const User = require("../models/User")
-const gravatar = require("gravatar")
-const normalizeUrl = require("normalize-url")
 
-const login = async (req, res) => {
+const login = async(req, res) => {
 
+    // Checks if email and password exists or is valid
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
         return res.status(400).json({Message: errors.array()})
@@ -17,18 +15,21 @@ const login = async (req, res) => {
 
     try {
         
+        // Queries User Model for email
         const user = await User.findOne({ email })
 
         if(!user) {
             return res.status(400).json({Message: "Email or password is invalid"})
         }
 
-        const isMatched = await bcrypt.compare(password, user.password)
+        // Compares input password with hashed password
+        const isMatched = await compare(password, user.password)
 
         if(!isMatched) {
             return res.status(400).json({ Message: " Email or password is invalid"})
         }
 
+        // Stores token in user.id
         const Payload = {
             user: {
                 id: user.id
@@ -36,13 +37,14 @@ const login = async (req, res) => {
             email,
             password
         }
+        // Signs and returns the token to client
+        sign(Payload, process.env.SECRET, (error, token) => {
 
-        jwt.sign(Payload, secret, { expiresIn: 3600000}, (error, token) => {
             if(error) {
                 throw error
-            } 
-
-            res.json({token})
+            }
+            
+            res.status(200).json({token})
         })
 
     } catch (error) {
@@ -53,7 +55,7 @@ const login = async (req, res) => {
 
 const signUp = async(req, res) => {
 
-
+    // Checks if username, email and password exists or is valid
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
         return res.status(400).json({Message: errors.array()})
@@ -62,20 +64,16 @@ const signUp = async(req, res) => {
     const { username, email, password } = req.body
 
     try {
-        
+
+        // Queries User model for E input email
         let user = await User.findOne({ email })
+
         if(user) {
             return res.status(400).json({Message: "Email is in use"})
         }
 
-
-        const avatar = normalizeUrl(
-            gravatar.url(email, {
-                s:"200",
-                r:"pg",
-                d:"mm"
-            })
-        )
+        // Sets Default Avatar
+        const avatar = "https://www.teenwiseseattle.com/wp-content/uploads/2017/04/default_avatar.png"
 
         user = new User({
             username,
@@ -84,27 +82,28 @@ const signUp = async(req, res) => {
             avatar
         })
 
-
-        const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(password, salt)
+        // Hashes input password
+        const salt = await genSalt(10)
+        user.password = await hash(password, salt)
 
         await user.save()
 
+        // Saves token in user.id
         const Payload = {
             user: {
                 id: user.id
             }
         }
+           // Signs and returns the token to client
+        sign(Payload, process.env.SECRET, (error, token) => {
 
-        jwt.sign(Payload, secret, {expiresIn:360000}, (error, token) => {
-        
               if(error) {
                 throw error
              } 
-            
-             res.json({token})
 
-    })
+             res.status(200).json({token})
+
+        })
 
       }  catch (error) {
         console.log(error)
@@ -112,6 +111,7 @@ const signUp = async(req, res) => {
     }
 }
 
+// For client web apps only
 const logout = async(req, res) => {
 
     try {
@@ -123,6 +123,5 @@ const logout = async(req, res) => {
     }
   
 }
-
 
 module.exports = { login, signUp, logout }

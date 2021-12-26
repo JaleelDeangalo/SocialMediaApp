@@ -6,8 +6,13 @@ const CommentSchema = new Schema({
         type: Schema.Types.ObjectId
     },
 
-    post: {
-        type: Schema.Types.ObjectId
+    likes: {
+        type: Array,
+        default: []
+    },
+
+    postID: {
+        type: Schema.Types.ObjectId,
     },
 
     comment: {
@@ -16,17 +21,9 @@ const CommentSchema = new Schema({
         default: ""
     },
 
-    avatar: {
-        type: String
-    },
-
-    username: {
-        type: String
-    },
-
     date: {
-        type: Number,
-        default: new Date().getTime()
+        type: Date,
+        default: new Date()
     }
 
 })

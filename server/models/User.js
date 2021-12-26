@@ -26,19 +26,9 @@ const UserSchema = new Schema({
         min:6
     },
 
-    isAdmin: {
-        type: Boolean,
-        default: false
-    },
-
     bio: {
         type: String,
         default: "Bio"
-    },
-
-    date: {
-        type: Date,
-        default: Date.now
     },
 
     followers: {
@@ -50,6 +40,16 @@ const UserSchema = new Schema({
         type: Array,
         default: []
     },
+
+    myPosts: {
+        type: Array,
+        default: []
+    },
+
+    date: {
+        type: Date,
+        default:  new Date()
+    }
 
 })
 

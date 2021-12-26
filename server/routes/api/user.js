@@ -1,34 +1,29 @@
-const express = require("express")
-const router = express.Router()
-const { auth } = require("../../middleware/token")
-const { 
-    followUser,
-    getCurrentUser,
-    unFollowUser,
-    updateUser,
-    getAllUsers,
-    getSelectedUser 
-} = require("../../controllers/user")
-const { check } = require("express-validator")    
+const router = require("express").Router()
+const token = require("../../middleware/token")
+const { check } = require("express-validator")  
+const { readFollowers, readFollowing, followUser, readCurrentUser, unFollowUser, readUser, readUsers, deleteCurrentUser, updateCurrentUser} = require("../../controllers/user")
 
+router.get("/", token, readCurrentUser)
 
-router.get("/", auth, getCurrentUser)
+router.get("/getUsers", token, readUsers)
 
-router.get("/currentUser", auth, getCurrentUser)
+router.get("/getUser/:id", token, readUser)
 
-router.get("/getUsers", auth, getAllUsers)
+router.put("/follow/:id", token, followUser)
 
-router.put("/follow/:id", auth, followUser)
+router.put("/unfollow/:id", token, unFollowUser)
 
-router.put("/unfollow/:id", auth, unFollowUser)
-
-router.put("/updateUser", auth, 
+router.put("/updateUser",
 [
-    check("username", "Please enter a username").notEmpty(),
-    check("bio", "Please enter a bio").notEmpty()
-],
-updateUser)
+    check("username", "username is required").notEmpty(),
+    check("email", "email is required").notEmpty(),
+    check("bio", "bio is required").notEmpty()
+], token, updateCurrentUser)
 
-router.get("/selectedUser", auth, getSelectedUser )
+router.delete("/", token, deleteCurrentUser)
+
+router.get("/following", token, readFollowing)
+
+router.get("/followers", token, readFollowers)
 
 module.exports = router

@@ -1,20 +1,18 @@
-const jwt = require("jsonwebtoken")
-const JWT = require("../config/keys").secret
+const { verify } = require("jsonwebtoken")
 
+module.exports = (req, res, next) => {
 
-const auth = async(req, res, next) => {
-
-const token = req.header("x-auth-token")
+const token = req.header("Authorization")
 
 if(!token) {
-    return res.status(401).json({Message: "No Token Acccess Denied"})
+    return res.status(401).json({ Message: "No Token Acccess Denied" })
 }
 
 try {
-    
-    jwt.verify(token, JWT, (error, decoded) => {
+
+    verify(token, process.env.SECRET, (error, decoded) => {
     if(error) {
-        return res.status(401).json({Message: "Token not valid"})
+        return res.status(403).json({ Message: "Token not valid" })
     } else {
         req.user = decoded.user
         next()
@@ -28,4 +26,5 @@ try {
 
 }
 
-module.exports = { auth }
+
+

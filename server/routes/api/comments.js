@@ -1,20 +1,16 @@
-const express = require("express")
-const router = express.Router()
+const router = require("express").Router()
 const { check } = require("express-validator")
-const { addComment, deleteComment, updateComment, getComments } = require("../../controllers/comments")
-const { auth } = require("../../middleware/token")
+const { createComment, deleteComment, updateComment, readComment, readComments} = require("../../controllers/comments")
+const token = require("../../middleware/token")
 
+router.post("/:id", [check("comment", "Comment is required").notEmpty()], token, createComment)
 
-router.post("/", [check("comment", "Comment is required").notEmpty()], auth, addComment)
+router.get("/:id", token, readComment)
 
-router.get("/", auth, getComments)
+router.put("/:id", [check("comment", "Comment is required").notEmpty()], token, updateComment)
 
-router.put("/", [check("comment", "Comment is required").notEmpty()], auth, updateComment)
+router.delete("/:id", token, deleteComment)
 
-router.delete("/", auth, deleteComment)
-
-
-
-
+router.get("/", token, readComments)
 
 module.exports = router

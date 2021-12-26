@@ -1,15 +1,13 @@
-const mongoose = require("mongoose")
-const key = require("./keys").mongoUri
+const { connect } = require("mongoose")
 
-
-const Connect = async() => {
+const Connect = async () =>  {
 
     try {
-        await mongoose.connect(key,
-             {useCreateIndex:true,
-              useFindAndModify:true,
-              useNewUrlParser:true,
-              useUnifiedTopology:true})
+        await connect(process.env.MONGO_URL,{
+             useCreateIndex: true, 
+             useFindAndModify: true,
+             useNewUrlParser: true, 
+             useUnifiedTopology: true})
         console.log(`MongoDB Connected`)
     } catch (error) {
         console.log(error)
