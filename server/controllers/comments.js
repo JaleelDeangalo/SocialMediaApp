@@ -122,9 +122,9 @@ const likeComment = async (req, res) => {
     try {
         const comment = await Comments.findById(req.params.id)
     
-          await comment.updateOne({$push: {likes: req.user.id}})
+        await comment.updateOne({$push: {likes: req.user.id}})
     
-          res.status(200).json({Message: "Comment has been liked"})
+        res.status(200).json({Message: "Comment has been liked"})
     } catch (error) {
         console.log(error)
         res.status(500).json({Message: "Server Error"})

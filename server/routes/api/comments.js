@@ -13,8 +13,8 @@ router.delete("/:id", token, deleteComment)
 
 router.get("/", token, readComments)
 
-router.put("like/:id", token, likeComment)
+router.put("/like/:id", token, likeComment)
 
-router.put("unlike/:id", token, unlikeComment)
+router.put("/unlike/:id", token, unlikeComment)
 
 module.exports = router
