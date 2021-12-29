@@ -117,4 +117,35 @@ const updateComment = async(req, res) => {
     }
 }
 
-module.exports = { createComment, deleteComment, updateComment, readComment, readComments }
+const likeComment = async (req, res) => {
+
+    try {
+        const comment = await Comments.findById(req.params.id)
+    
+          await comment.updateOne({$push: {likes: req.user.id}})
+    
+          res.status(200).json({Message: "Comment has been liked"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+  
+}
+
+const unlikeComment = async (req, res) => {
+    try {
+        
+        const comment = await Comments.findById(req.params.id)
+      
+        await comment.updateOne({$pull: { likes: req.user.id}})
+
+         res.status(200).json({Message: "Comment has been unliked"})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+}
+
+
+module.exports = { createComment, deleteComment, updateComment, readComment, readComments, likeComment, unlikeComment }
