@@ -38,7 +38,7 @@ const login = async(req, res) => {
             password
         }
         // Signs and returns the token to client
-        sign(Payload, process.env.SECRET, (error, token) => {
+        sign(Payload, process.env.SECRET, function(error, token) {
 
             if(error) {
                 throw error
@@ -95,7 +95,7 @@ const signUp = async(req, res) => {
             }
         }
            // Signs and returns the token to client
-        sign(Payload, process.env.SECRET, (error, token) => {
+        sign(Payload, process.env.SECRET, function(error, token) {
 
               if(error) {
                 throw error

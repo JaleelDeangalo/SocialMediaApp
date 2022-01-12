@@ -1,6 +1,6 @@
 const { verify } = require("jsonwebtoken")
 
-module.exports = (req, res, next) => {
+module.exports = function(req, res, next) {
 
 const token = req.header("Authorization")
 
@@ -10,7 +10,7 @@ if(!token) {
 
 try {
 
-    verify(token, process.env.SECRET, (error, decoded) => {
+    verify(token, process.env.SECRET, function(error, decoded) {
     if(error) {
         return res.status(403).json({ Message: "Token not valid" })
     } else {
