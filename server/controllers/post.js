@@ -15,6 +15,8 @@ const createPost = async (req, res) => {
         const user = await User.findById(req.user.id).select("-password")    
         
         const newPost = new Post({
+            username: user.username,
+            avatar: user.avatar,
             description,
             image,
             details,

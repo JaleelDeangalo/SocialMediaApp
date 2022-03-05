@@ -2,6 +2,14 @@ const { model, Schema } = require("mongoose")
 
 const CommentSchema = new Schema({
 
+    username: {
+        type: String
+    },
+
+    avatar: {
+        type: String
+    },
+
     user: {
         type: Schema.Types.ObjectId
     },

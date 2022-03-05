@@ -3,7 +3,7 @@ const Comments = require("../models/Comment")
 const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
-const createComment = async(req, res) => {
+async function createComment(req, res) {
 
     const errors = validationResult(req)
 
@@ -23,6 +23,8 @@ const createComment = async(req, res) => {
         }
 
         const newComment = new Comments({
+            username: user.username,
+            avatar: user.avatar,
             comment,
             user: user.id,
             postID
@@ -42,7 +44,7 @@ const createComment = async(req, res) => {
     }
 }
 
-const readComments = async (req, res)  => {
+async function readComments(req, res) {
 
         try {
 
@@ -56,7 +58,7 @@ const readComments = async (req, res)  => {
         }
 }
 
- const readComment = async (req, res) => {
+ async function readComment(req, res) {
 
     try {
 
@@ -72,7 +74,7 @@ const readComments = async (req, res)  => {
     }
 }
 
-const deleteComment = async (req, res) => {
+async function deleteComment(req, res) {
 
     try {
 
@@ -94,7 +96,7 @@ const deleteComment = async (req, res) => {
     }
 }
 
-const updateComment = async(req, res) => {
+async function updateComment(req, res) {
 
     const errors = validationResult(req)
 
@@ -117,7 +119,7 @@ const updateComment = async(req, res) => {
     }
 }
 
-const likeComment = async (req, res) => {
+async function likeComment(req, res) {
 
     try {
         const comment = await Comments.findById(req.params.id)
@@ -132,7 +134,7 @@ const likeComment = async (req, res) => {
   
 }
 
-const unlikeComment = async (req, res) => {
+async function unlikeComment(req, res) {
     try {
         
         const comment = await Comments.findById(req.params.id)
