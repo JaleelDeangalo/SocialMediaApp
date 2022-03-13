@@ -7,7 +7,8 @@ const { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updat
 router.post("/",
 [
     check("description", "Text is required").notEmpty(),
-    check("image", "Image is required").notEmpty()
+    check("image", "Image is required").notEmpty(),
+    check("details", "Details is required").notEmpty()
 ]
 , token,
 createPost)
