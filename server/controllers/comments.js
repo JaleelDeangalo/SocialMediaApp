@@ -40,7 +40,7 @@ async function createComment(req, res) {
 
     } catch(error) {
         console.log(error)
-        res.status(500).send(`Server Error`)
+        res.status(500).send(`Server Error: ${error}`)
     }
 }
 
