@@ -27,7 +27,7 @@ async function createComment(req, res) {
             avatar: user.avatar,
             comment,
             user: user.id,
-            postID
+            postId
         })
 
         posts.comments.push(req.user.id)
