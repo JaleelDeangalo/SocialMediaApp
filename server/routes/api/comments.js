@@ -3,9 +3,9 @@ const { check } = require("express-validator")
 const { createComment, deleteComment, updateComment, readComment, readComments, unlikeComment, likeComment} = require("../../controllers/comments")
 const token = require("../../middleware/token")
 
-router.post("postComment/:id", [check("comment", "Comment is required").notEmpty()], token, createComment)
+router.post("/postComment/:id", [check("comment", "Comment is required").notEmpty()], token, createComment)
 
-router.get("readComment/:id", token, readComment)
+router.get("/readComment/:id", token, readComment)
 
 router.put("/:id", [check("comment", "Comment is required").notEmpty()], token, updateComment)
 
