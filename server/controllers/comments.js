@@ -16,7 +16,7 @@ async function createComment(req, res) {
     try {
 
         const user = await User.findById(req.user.id).select("-password")
-        const posts = await Post.findByidId(req.params.id)
+        const posts = await Post.findById(req.params.id)
 
         if(!posts) {
             return res.status(404).json({Message: "Post not found"})
