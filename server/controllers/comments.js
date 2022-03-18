@@ -11,12 +11,12 @@ async function createComment(req, res) {
         return res.status(400).send({Message: errors.array()})
     }
 
-    const { comment, postId } = req.body
+    const { comment } = req.body
 
     try {
 
         const user = await User.findById(req.user.id).select("-password")
-        const posts = await Post.findOne({ _id: postId})
+        const posts = await Post.findByidId(req.params.id)
 
         if(!posts) {
             return res.status(404).json({Message: "Post not found"})
@@ -27,7 +27,7 @@ async function createComment(req, res) {
             avatar: user.avatar,
             comment,
             user: user.id,
-            postId
+            postId: req.params.id
         })
 
         posts.comments.push(req.user.id)
