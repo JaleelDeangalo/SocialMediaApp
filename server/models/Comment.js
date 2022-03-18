@@ -19,7 +19,7 @@ const CommentSchema = new Schema({
         default: []
     },
 
-    postID: {
+    postId: {
         type: Schema.Types.ObjectId,
     },
 
