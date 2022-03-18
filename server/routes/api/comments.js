@@ -1,6 +1,6 @@
 const router = require("express").Router()
 const { check } = require("express-validator")
-const { createComment, deleteComment, updateComment, readComment, readComments, unlikeComment, likeComment} = require("../../controllers/comments")
+const { createComment, deleteComment, updateComment, readComment, readAllComments, unlikeComment, likeComment} = require("../../controllers/comments")
 const token = require("../../middleware/token")
 
 router.post("/postComment/:id", [check("comment", "Comment is required").notEmpty()], token, createComment)
@@ -11,7 +11,7 @@ router.put("/:id", [check("comment", "Comment is required").notEmpty()], token, 
 
 router.delete("/:id", token, deleteComment)
 
-router.get("/", token, readComments)
+router.get("/", token, readAllComments)
 
 router.put("/like/:id", token, likeComment)
 

@@ -27,7 +27,7 @@ async function createComment(req, res) {
             avatar: user.avatar,
             comment,
             user: user.id,
-            postId: req.params.id
+            postId: posts.id
         })
 
         posts.comments.push(req.user.id)
@@ -44,7 +44,7 @@ async function createComment(req, res) {
     }
 }
 
-async function readComments(req, res) {
+async function readAllComments(req, res) {
 
         try {
 
@@ -62,7 +62,7 @@ async function readComments(req, res) {
 
     try {
 
-        const comments = await Comments.find({postID: req.params.id}).sort({ date: -1})
+        const comments = await Comments.find({postId: req.params.id}).sort({ date: -1})
 
         if(!comments) {
             return res.status(404).json({Message: "Comments not found"})
@@ -150,4 +150,4 @@ async function unlikeComment(req, res) {
 }
 
 
-module.exports = { createComment, deleteComment, updateComment, readComment, readComments, likeComment, unlikeComment }
+module.exports = { createComment, deleteComment, updateComment, readComment, readAllComments, likeComment, unlikeComment }
