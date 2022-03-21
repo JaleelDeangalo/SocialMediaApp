@@ -7,9 +7,9 @@ router.post("/postComment/:id", [check("comment", "Comment is required").notEmpt
 
 router.get("/readComment/:id", token, readComment)
 
-router.put("/:id", [check("comment", "Comment is required").notEmpty()], token, updateComment)
+router.put("/updateComment/:id", [check("comment", "Comment is required").notEmpty()], token, updateComment)
 
-router.delete("/:id", token, deleteComment)
+router.delete("/deleteComment/:id", token, deleteComment)
 
 router.get("/", token, readAllComments)
 
