@@ -34,12 +34,6 @@ try {
 }
 
 const updateCurrentUser = async(req, res) => {
-
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
-        return res.status(400).json({Message: errors.array()})
-    }
-
     try {
         const user = await User.findById(req.user.id).select("-password")
   
@@ -51,7 +45,6 @@ const updateCurrentUser = async(req, res) => {
         console.log(error)
         res.status(500).json({Message: "Server Error"})
     }
-
 }
 
 const deleteCurrentUser = async (req, res) => {
