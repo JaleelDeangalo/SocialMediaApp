@@ -34,6 +34,23 @@ const createPost = async (req, res) => {
 
 }
 
+const getPostById = async(req, res) => {
+
+    try {
+
+        const post = await Post.findById(req.params.id)
+
+        if(!post) {
+            return res.status(404).json({Message : "Post not found"})
+        }
+
+        res.status(200).json(post)
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({Message : "Server Error"})
+    }
+}
+
 const updatePost = async (req, res) => {
 
 try {
@@ -170,4 +187,4 @@ const readPostComments = async (req, res) => {
 
 }
 
-module.exports = { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments}
+module.exports = { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments, getPostById }

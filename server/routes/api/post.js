@@ -1,8 +1,10 @@
 const router = require("express").Router()
 const { check } = require("express-validator")
 const  token  = require("../../middleware/token")
-const { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments } = require("../../controllers/post")
+const { createPost, readPost, readPosts, deletePost, likePost, unlikePost, updatePost, readTimelinePost, readPostComments, getPostById } = require("../../controllers/post")
 
+
+router.get("/getPost/:id", token, getPostById)
 
 router.post("/",
 [
