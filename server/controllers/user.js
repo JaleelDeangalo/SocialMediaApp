@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const Post = require("../models/Post")
 const { validationResult } = require("express-validator")
 
 const readCurrentUser = async(req, res) => {
@@ -36,8 +37,10 @@ try {
 const updateCurrentUser = async(req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password")
+        const post = await Post.find({id: req.user.id})
   
         await user.updateOne({$set: req.body})
+        await post.update()
 
         res.status(200).json({Message: "Profile updated successfully"})
 

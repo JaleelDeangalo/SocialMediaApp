@@ -12,7 +12,7 @@ const createPost = async (req, res) => {
     const { description, image, details } = req.body
 
     try {
-        const user = await User.findById(req.user.id).select("-password")    
+        const user = await User.findById(req.user.id).select("-password")   
         
         const newPost = new Post({
             username: user.username,
@@ -24,6 +24,7 @@ const createPost = async (req, res) => {
             user: req.user.id
         })
         
+         await user.updateOne({$push: { myPosts: newPost }})
          await newPost.save()
 
         res.status(200).json({Message: "Post created"})
