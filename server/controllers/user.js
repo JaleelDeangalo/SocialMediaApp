@@ -126,26 +126,26 @@ const unFollowUser = async (req, res) => {
 
 const readFollowing = async (req, res) => {
 
-    try {
-    
-        const user = await User.findById(req.user.id)
-        const friends = await Promise.all(user.following.map(friendId => {
-            return User.findById(friendId)
-        }))
-    
-        let followingList = [];
-    
-        friends.map(friend => {
-            const{ _id, username, avatar } = friend
-            followingList.push({ _id, username, avatar })
-        })
-    
-        res.status(200).json(followingList)
-    
-    } catch(error) {
-        console.log(error)
-        res.status(500).send("Server Error")
-    }
+        try {
+        
+            const user = await User.findById(req.user.id)
+            const friends = await Promise.all(user.following.map(friendId => {
+                return User.findById(friendId)
+            }))
+        
+            let followingList = [];
+        
+            friends.map(friend => {
+                const{ _id, username, avatar } = friend
+                followingList.push({ _id, username, avatar })
+            })
+        
+            res.status(200).json(followingList)
+        
+        } catch(error) {
+            console.log(error)
+            res.status(500).send("Server Error")
+        }
     
     }
 
@@ -173,4 +173,21 @@ const readFollowers = async (req, res) => {
 
     }
 
-module.exports = { readCurrentUser, followUser, unFollowUser, readUsers, updateCurrentUser, readFollowing, deleteCurrentUser, readFollowers, readUser }
+
+    const getUserPosts = async(req, res) => {
+
+        try {
+            const posts = await Post.find({user: req.user.id})
+
+            if(!posts) { return res.status(404).json({Message: "Server Error"}) }
+
+            res.status(200).json(posts)
+
+        } catch(error) {
+            console.log(error)
+            res.status(500).json({Message: "Server Error"})
+        }
+
+    }
+
+module.exports = { readCurrentUser, followUser, unFollowUser, readUsers, updateCurrentUser, readFollowing, deleteCurrentUser, readFollowers, readUser, getUserPosts }

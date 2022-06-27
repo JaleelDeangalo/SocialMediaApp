@@ -47,12 +47,9 @@ async function createComment(req, res) {
 async function readAllComments(req, res) {
 
         try {
-
             const comments = await Comments.find()
             res.status(200).json(comments)
-
         } catch(error) {
-
             console.log(error)
             res.status(500).send("Server Error")
         }
@@ -61,12 +58,8 @@ async function readAllComments(req, res) {
  async function readComment(req, res) {
 
     try {
-
         const comments = await Comments.find({postId: req.params.id}).sort({ date: -1})
-
-        if(!comments) {
-            return res.status(404).json({Message: "Comments not found"})
-        }
+        if(!comments) { return res.status(404).json({Message: "Comments not found"}) }
         res.status(200).json(comments)
     } catch (error) {
         console.log(error)
@@ -77,14 +70,10 @@ async function readAllComments(req, res) {
 async function deleteComment(req, res) {
 
     try {
-
         const postID = req.body 
         const comment = await Comments.findById(req.params.id)
         const posts = await Post.findOne({ _id: postID})
-        if(comment.user.toString() !== req.user.id) {
-            return res.status(401).send(`Not Authorized`)
-        }
-
+        if(comment.user.toString() !== req.user.id) { return res.status(401).send(`Not Authorized`) }
         await posts.comments.pull(comment)
         await comment.remove()
 
@@ -100,9 +89,7 @@ async function updateComment(req, res) {
 
     const errors = validationResult(req)
 
-    if(!errors.isEmpty()) {
-        return res.status(400).send({Message: errors.array()})
-    }
+    if(!errors.isEmpty()) { return res.status(400).send({Message: errors.array()}) }
 
     try {
 

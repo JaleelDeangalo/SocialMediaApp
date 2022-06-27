@@ -23,14 +23,14 @@ const createPost = async (req, res) => {
             date: new Date().getTime(),
             user: req.user.id
         })
-        
-         await user.updateOne({$push: { myPosts: newPost }})
+    
+         await user.updateOne({$push: {posts: newPost}})
          await newPost.save()
 
         res.status(200).json({Message: "Post created"})
     } catch (error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).json({Message: `Server Error ${error}`})
     }
 
 }
@@ -48,24 +48,23 @@ const getPostById = async(req, res) => {
         res.status(200).json(post)
     } catch(error) {
         console.log(error)
-        res.status(500).json({Message : "Server Error"})
+        res.status(500).json({Message : `Server Error ${error}`})
     }
 }
 
 const updatePost = async (req, res) => {
 
-try {
-     
-const post = await Post.findById(req.params.id)
-if(post.user.toString() !== req.user.id.toString()) {
-    return res.status(401).send("Not Authorized")
-} 
-    await post.updateOne({$set: req.body})
-    res.status(200).json({Message: "Post has been updated"})
-} catch(error) {
-    console.log(error)
-    res.status(500).send("Server Error")
-}
+    try {
+        const post = await Post.findById(req.params.id)
+        if(post.user.toString() !== req.user.id.toString()) {
+            return res.status(401).send("Not Authorized")
+        } 
+            await post.updateOne({$set: req.body})
+            res.status(200).json({Message: "Post has been updated"})
+    } catch(error) {
+        console.log(error)
+        res.status(500).send("Server Error")
+    }
 
 }
 
@@ -91,7 +90,7 @@ const deletePost = async (req, res)  => {
             return res.status(401).json({Message: "User not authorized"})
         }
 
-        await user.updateOne({$pull: { myPosts: post }})
+        await user.updateOne({$pull: {posts: post}})
         await post.remove()
 
         res.status(200).json({Message: "Post removed"})
@@ -99,7 +98,7 @@ const deletePost = async (req, res)  => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).json({Message: `Server Error ${error}` })
     }
 }
 
@@ -114,7 +113,7 @@ const likePost = async (req, res) => {
           res.status(200).json({Message: "Post has been liked"})
     } catch (error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).json({Message: `Server Error ${error}`})
     }
   
 }
@@ -123,14 +122,13 @@ const unlikePost = async (req, res) => {
     try {
         
         const post = await Post.findById(req.params.id)
-      
         await post.updateOne({$pull: { likes: req.user.id}})
 
-         res.status(200).json({Message: "Post has been unliked"})
+        res.status(200).json({Message: "Post has been unliked"})
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).json({Message: `Server Error ${error}`})
     }
 }
 
@@ -140,7 +138,7 @@ const readPosts = async (req, res) => {
         res.status(200).json(posts)
     } catch (error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).json({Message: `Server Error ${error}`})
     }
 }
 
@@ -157,7 +155,7 @@ const readTimelinePost = async (req, res)  => {
         res.status(200).json(userPost.concat(...friendPosts))
     } catch(error) {
         console.log(error)
-        res.status(500).send("Server Error")
+        res.status(500).send(`Server Error ${error}`)
     }
 
 }
@@ -183,7 +181,7 @@ const readPostComments = async (req, res) => {
 
     } catch(error) {
         console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        res.status(500).json({Message: `Server Error ${error}`})
     }
 
 }

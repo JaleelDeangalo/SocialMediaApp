@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose")
+const Post = require("./Post")
 
 const UserSchema = new Schema({
 
@@ -31,17 +32,22 @@ const UserSchema = new Schema({
         default: "Bio"
     },
 
+    posts: {
+        type: Array,
+        default: []
+    },
+
+    videos: {
+        type: Array,
+        default: null
+    },
+
     followers: {
         type: Array,
         default: []
     },
 
     following: {
-        type: Array,
-        default: []
-    },
-
-    myPosts: {
         type: Array,
         default: []
     },

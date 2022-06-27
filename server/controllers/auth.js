@@ -111,6 +111,16 @@ const signUp = async(req, res) => {
     }
 }
 
+const socialLogin = async(res, req) => {
+
+    try {
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({Message: "Server Error"})
+    }
+}
+
 // For client web apps only
 const logout = async(req, res) => {
 
@@ -124,4 +134,4 @@ const logout = async(req, res) => {
   
 }
 
-module.exports = { login, signUp, logout }
+module.exports = { login, signUp, logout, socialLogin }
