@@ -5,15 +5,15 @@ const { validationResult } = require("express-validator")
 const readCurrentUser = async(req, res) => {
 
     try {
-        const user = await User.findById(req.user.id).select("-password")
+        const user = await User.findById(req.user.id).select("-password");
         if(!user) {
-            return res.status(404).json({Message: "User not found"})
+            return res.status(404).json({Message: "User not found"});
         }
-        res.status(200).json(user)
+        res.status(200).json(user);
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        console.log(error);
+        res.status(500).json({Message: "Server Error"});
     }
     
 }
@@ -22,31 +22,31 @@ const readUser = async(req, res) => {
 
 try {
 
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id);
 
-    const { password, updatedAt, ...other} = user._doc
-    res.status(200).json(other)
+    const { password, updatedAt, ...other} = user._doc;
+    res.status(200).json(other);
 
 } catch(error) {
-    console.log(error)
-    res.status(500).json({Message: "Server Error"})
+    console.log(error);
+    res.status(500).json({Message: "Server Error"});
 }
 
 }
 
 const updateCurrentUser = async(req, res) => {
     try {
-        const user = await User.findById(req.user.id).select("-password")
-        const post = await Post.find({id: req.user.id})
+        const user = await User.findById(req.user.id).select("-password");
+        const post = await Post.find({id: req.user.id});
   
-        await user.updateOne({$set: req.body})
-        await post.update()
+        await user.updateOne({$set: req.body});
+        await post.update();
 
-        res.status(200).json({Message: "Profile updated successfully"})
+        res.status(200).json({Message: "Profile updated successfully"});
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        console.log(error);
+        res.status(500).json({Message: "Server Error"});
     }
 }
 
@@ -54,27 +54,27 @@ const deleteCurrentUser = async (req, res) => {
 
     try {
 
-        const user = await User.findById(req.user.id)
+        const user = await User.findById(req.user.id);
         if(!user) {
-            return res.status(400).json({Message: "User not found"})
+            return res.status(400).json({Message: "User not found"});
         }
-        await user.deleteOne()
-        res.status(200).json({Message: "User deleted"})
+        await user.deleteOne();
+        res.status(200).json({Message: "User deleted"});
 
     } catch(error) {
-        console.log(error)
-        res.status(500).send("Server Error")
+        console.log(error);
+        res.status(500).send("Server Error");
     }
 }
 
 const readUsers = async(req, res)  => {
 
     try {
-      const users = await User.find().sort({ date: -1})
-      res.status(200).json(users)  
+      const users = await User.find().sort({ date: -1});
+      res.status(200).json(users);  
     } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        console.log(error);
+        res.status(500).json({Message: "Server Error"});
     }
 
 }
@@ -83,21 +83,21 @@ const followUser = async(req, res) => {
 
     try {
         // Gets selected user
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.params.id);
         // Gets currentUser
-        const currentUser = await  User.findById(req.user.id)
+        const currentUser = await  User.findById(req.user.id);
       
         if(currentUser.id.toString() === req.params.id) {
-            return res.status(400).json({Message: "Error"})
+            return res.status(400).json({Message: "Error"});
         }
 
-        await user.updateOne({$push : { followers: req.user.id}})
-        await currentUser.updateOne({$push: {following: user.id}})
+        await user.updateOne({$push : { followers: req.user.id}});
+        await currentUser.updateOne({$push: {following: user.id}});
 
-        res.status(200).json({Message: "User has been followed"})
+        res.status(200).json({Message: "User has been followed"});
     } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        console.log(error);
+        res.status(500).json({Message: "Server Error"});
     }
 
 }
@@ -105,21 +105,21 @@ const followUser = async(req, res) => {
 const unFollowUser = async (req, res) => {
 
     try {
-        const user = await User.findById(req.params.id)
-        const currentUser = await User.findById(req.user.id)
+        const user = await User.findById(req.params.id);
+        const currentUser = await User.findById(req.user.id);
 
         if(currentUser.id.toString() === req.params.id) {
-            return res.status(400).json({Message: "Cannot unfollow yourself"})
+            return res.status(400).json({Message: "Cannot unfollow yourself"});
         }
 
-        await user.updateOne({$pull: { followers: req.user.id }})
-        await currentUser.updateOne({$pull: { following: user.id }})
+        await user.updateOne({$pull: { followers: req.user.id }});
+        await currentUser.updateOne({$pull: { following: user.id }});
 
-        res.status(200).json({Message: "User has been unfollowed"})
+        res.status(200).json({Message: "User has been unfollowed"});
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({Message: "Server Error"})
+        console.log(error);
+        res.status(500).json({Message: "Server Error"});
     }
 
 }
@@ -128,23 +128,23 @@ const readFollowing = async (req, res) => {
 
         try {
         
-            const user = await User.findById(req.user.id)
+            const user = await User.findById(req.user.id);
             const friends = await Promise.all(user.following.map(friendId => {
-                return User.findById(friendId)
+                return User.findById(friendId);
             }))
         
             let followingList = [];
         
             friends.map(friend => {
-                const{ _id, username, avatar } = friend
-                followingList.push({ _id, username, avatar })
+                const{ _id, username, avatar } = friend;
+                followingList.push({ _id, username, avatar });
             })
         
-            res.status(200).json(followingList)
+            res.status(200).json(followingList);
         
         } catch(error) {
-            console.log(error)
-            res.status(500).send("Server Error")
+            console.log(error);
+            res.status(500).send("Server Error");
         }
     
     }
@@ -152,23 +152,23 @@ const readFollowing = async (req, res) => {
 const readFollowers = async (req, res) => {
 
         try {
-            const user = await User.findById(req.user.id)
+            const user = await User.findById(req.user.id);
             const friends = await Promise.all(user.followers.map(friendId => {
-                return User.findById(friendId)
-            }))
+                return User.findById(friendId);
+            }));
 
-            let followersList = []
+            let followersList = [];
 
             friends.map(friend => {
-                const { _id, username, avatar } = friend
-                followersList.push({ _id, username, avatar })
-            })
+                const { _id, username, avatar } = friend;
+                followersList.push({ _id, username, avatar });
+            });
 
-            res.status(200).json(followersList)
+            res.status(200).json(followersList);
 
         } catch(error) {
-            console.log(error)
-            res.status(500).json({Mesage: "Server Error"})
+            console.log(error);
+            res.status(500).json({Mesage: "Server Error"});
         }
 
     }
@@ -177,15 +177,15 @@ const readFollowers = async (req, res) => {
     const getUserPosts = async(req, res) => {
 
         try {
-            const posts = await Post.find({user: req.user.id})
+            const posts = await Post.find({user: req.user.id});
 
-            if(!posts) { return res.status(404).json({Message: "Server Error"}) }
+            if(!posts) { return res.status(404).json({Message: "Server Error"}); }
 
-            res.status(200).json(posts)
+            res.status(200).json(posts);
 
         } catch(error) {
-            console.log(error)
-            res.status(500).json({Message: "Server Error"})
+            console.log(error);
+            res.status(500).json({Message: "Server Error"});
         }
 
     }

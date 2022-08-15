@@ -2,16 +2,9 @@ const { model, Schema } = require("mongoose")
 
 const PostSchema = new Schema({
 
-    username: {
-        type: String
-    },
-
-    avatar: {
-        type: String
-    },
-
-    user: {
-        type: Schema.Types.ObjectId
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
 
     image: {
@@ -24,16 +17,10 @@ const PostSchema = new Schema({
         required: true
     },
 
-
     details: {
         type: String,
         required: true,
         default: ""
-    },
-    
-    likes: {
-        type: Array,
-        default: []
     },
 
     comments: {
@@ -46,6 +33,6 @@ const PostSchema = new Schema({
         default: new Date()
     }
 
-})
+},{timestamps: true});
 
-module.exports = model("Post", PostSchema)
+module.exports = model("Post", PostSchema);

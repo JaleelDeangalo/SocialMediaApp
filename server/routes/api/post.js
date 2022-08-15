@@ -1,6 +1,11 @@
-const router = require("express").Router()
-const { check } = require("express-validator")
-const  token  = require("../../middleware/token")
+const router = require("express").Router();
+const { check } = require("express-validator");
+const  token  = require("../../middleware/token");
+const { diskStorageOptions } = require("../../config/Storage");
+const multer = require("multer");
+
+const uploader = multer({ storage: diskStorageOptions });
+
 const { createPost,
         readPost,
         readPosts,
@@ -10,10 +15,10 @@ const { createPost,
         updatePost,
         readTimelinePost,
         readPostComments,
-        getPostById } = require("../../controllers/post")
+        getPostById } = require("../../controllers/post");
 
 
-router.get("/getPost/:id", token, getPostById)
+router.get("/getPost/:id", [token], getPostById);
 
 router.post("/",
 [
@@ -22,22 +27,22 @@ router.post("/",
     check("details", "Details is required").notEmpty()
 ]
 , token,
-createPost)
+createPost);
 
-router.get("/", readPosts)
+router.get("/", readPosts);
 
-router.get("/:id", token, readPost)
+router.get("/:id", [token], readPost);
 
-router.delete("/:id", token, deletePost)
+router.delete("/:id", [token], deletePost);
 
-router.put("/:id", token, updatePost)
+router.put("/:id", [token], updatePost);
 
-router.put("/like/:id", token, likePost)
+router.put("/like/:id", [token], likePost);
 
-router.put("/unlike/:id", token, unlikePost)
+router.put("/unlike/:id", [token], unlikePost);
 
-router.get("/postComments/:id", token, readPostComments)
+router.get("/postComments/:id", [token], readPostComments);
 
-router.get("/timeline", token, readTimelinePost)
+router.get("/timeline", [token], readTimelinePost);
 
-module.exports = router
+module.exports = router;

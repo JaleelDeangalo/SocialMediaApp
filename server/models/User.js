@@ -1,5 +1,4 @@
-const { model, Schema } = require("mongoose")
-const Post = require("./Post")
+const { model, Schema } = require("mongoose");
 
 const UserSchema = new Schema({
 
@@ -11,8 +10,15 @@ const UserSchema = new Schema({
         max: 20
     },
 
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+
     avatar: {
-        type: String
+        type: String,
+        required: false,
+        default: ""
     },
 
     email: {
@@ -21,43 +27,48 @@ const UserSchema = new Schema({
         unique: true
     },
 
+    stripe: {
+        type: String,
+        required: false,
+        default: null
+    },
+
     password: {
         type: String,
         required: true,
-        min:6
+        minLength: 6
     },
 
     bio: {
         type: String,
-        default: "Bio"
+        default: ""
     },
 
-    posts: {
-        type: Array,
-        default: []
-    },
-
-    videos: {
-        type: Array,
+    stripeEmail: {
+        type: String,
+        required: false,
         default: null
     },
 
-    followers: {
-        type: Array,
-        default: []
+    isStripeConnected: {
+        type: Boolean,
+        required: true,
+        default: false
     },
 
-    following: {
-        type: Array,
-        default: []
-    },
-
-    date: {
+    deletedAt: {
         type: Date,
-        default:  new Date()
+        required: false,
+        default: null
+    },
+
+    emailVerifiedAt: {
+        type: Date,
+        required: false,
+        default: null
     }
 
-})
+},{timestamps: true});
 
 
-module.exports = model("User", UserSchema)
+module.exports = model("User", UserSchema);

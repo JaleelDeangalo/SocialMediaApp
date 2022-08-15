@@ -1,9 +1,9 @@
-const router = require("express").Router()
-const { check } = require("express-validator")
-const { login, logout, signUp } = require("../../controllers/auth")
-const token = require("../../middleware/token")
+const router = require("express").Router();
+const { check } = require("express-validator");
+const { login, logout, signUp } = require("../../controllers/auth");
+const token = require("../../middleware/token");
 
-router.get("/logout", token, logout)
+router.get("/logout", token, logout);
 
 router.post("/signup", 
 [
@@ -11,15 +11,15 @@ router.post("/signup",
     check("email", "Email is required").isEmail().notEmpty(),
     check("password", "Password must be 6 or more charaters").isLength({min:6})
 ],
-signUp)
+signUp);
 
 router.post("/login", 
 [
     check("email", "Email is required").isEmail().notEmpty(),
     check("password","Password is required").notEmpty()
 ],
- login)
+ login);
 
-module.exports = router
+module.exports = router;
 
 

@@ -1,28 +1,28 @@
-const { verify } = require("jsonwebtoken")
+const { verify } = require("jsonwebtoken");
 
-module.exports = function(req, res, next) {
+module.exports = (req, res, next) => {
 
-const token = req.header("Authorization")
+const token = req.header("Authorization");
 
-if(!token) {
-    return res.status(401).json({ Message: "No Token Acccess Denied" })
-}
-
-try {
-
-    verify(token, process.env.SECRET, function(error, decoded) {
-    if(error) {
-        return res.status(403).json({ Message: "Token not valid" })
-    } else {
-        req.user = decoded.user
-        next()
+    if(!token) {
+        return res.status(401).json({ Message: "No Token Acccess Denied" });
     }
-})
 
-} catch (error) {
-    console.log(error)
-    res.status(500).json({Message: "Server Error"})
-}
+    try {
+
+        verify(token, process.env.SECRET, (error, decoded) => {
+        if(error) {
+            return res.status(403).json({ Message: "Token not valid" });
+        } else {
+            req.user = decoded.user
+            next();
+        }
+    })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({Message: "Server Error"});
+    }
 
 }
 
