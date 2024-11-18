@@ -3,7 +3,7 @@ const { sign } = require("jsonwebtoken");
 const { hash, genSalt, compare } = require("bcryptjs");
 const User = require("../models/User");
 
-const login = async(req, res) => {
+  async function login(req, res) {
 
     // Checks if email and password exists or is valid
     const errors = validationResult(req);
@@ -53,7 +53,7 @@ const login = async(req, res) => {
     }
 }
 
-const signUp = async(req, res) => {
+async function signUp(req, res) {
 
     // Checks if username, email and password exists or is valid
     const errors = validationResult(req);
@@ -111,7 +111,7 @@ const signUp = async(req, res) => {
     }
 }
 
-const socialLogin = async(res, req) => {
+ async function socialLogin(res, req) {
 
     try {
 
@@ -122,7 +122,7 @@ const socialLogin = async(res, req) => {
 }
 
 // For client web apps only
-const logout = async(req, res) => {
+async function logout(req, res) {
 
     try {
          await res.clearCookie(req.user.id);

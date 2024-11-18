@@ -22,20 +22,26 @@ module.exports = {
         }
     }),
 
-    upload: file => {
-        return new Promise(function(resolve, reject) {
-
-        });
+    upload: async file => {
+        try {
+            
+        } catch (error) {
+            
+        }
     },
-    download: file => {
-        return new Promise(function(resolve, reject) {
-
-        });
+    download: async file => {
+        try {
+            
+        } catch (error) {
+            
+        }
     },
-    remove: file => {
-        return new Promise(function(resolve, reject) {
-
-        });
+    remove: async file => {
+        try {
+            
+        } catch (error) {
+            
+        }
     },
     url: file => {
         return `${process.env.AWS_URL}/${file}`;

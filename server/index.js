@@ -3,35 +3,18 @@ const app = express();
 require("dotenv").config();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const { connect } = require("mongoose");
+const { ConnectDB } = require("./config/Connect");
+const { MountRoutes } = require("./config/Mounting")
 
 
 // Parsing JSON Data
 app.use(express.json());
 
 // Mounting Routes
-app.use("/api/auth", require("./routes/api/auth"));
-app.use("/api/post", require("./routes/api/post"));
-app.use("/api/user", require("./routes/api/user"));
-app.use("/api/comments", require("./routes/api/comments"));
-app.use("/api/messages", require("./routes/api/messages"));
-app.use("/api/conversations", require("./routes/api/conversations"));
+MountRoutes(app)
 
-app.get("/", (req, res) => {
-    res.send("Social Media API");
-})
 // Connects to MongoDB
-connect(process.env.MONGO_URI, { 
-    useCreateIndex: true, 
-    useFindAndModify: true,
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
-})
-.then(() => console.log("MongoDB Connected"))
-.catch(error => {
-    console.log(error);
-    process.exit(1);
-});
+//ConnectDB(process.env.MONGO_URI)
 
 // Heroku Envoirment Port
 const Port = process.env.PORT || 5500;
@@ -39,6 +22,7 @@ const Port = process.env.PORT || 5500;
 // Production URL:  https://artsketch.herokuapp.com
 // Development URL: http://localhost:5500
 // Websocket Dev URL: ws://localhost:5500
+// Websock Prod URL: ws://websocketservice.app.com
 app.listen(Port, () => console.log(`Server is running on port ${Port}`));
 
 

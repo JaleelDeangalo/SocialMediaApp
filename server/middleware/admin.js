@@ -21,9 +21,9 @@ module.exports = function(req, res, next) {
             req.user = decoded.user;
         });
 
-        User.findOne({id: req.user.id}, (err, user) => {
+        User.findOne({id: req.user.id}, (error, user) => {
 
-            if(err) {
+            if(error) {
                 return res.status(400).send({
                     success: false,
                     data: null,
